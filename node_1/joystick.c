@@ -3,84 +3,142 @@
 #include "joystick.h"
 #include "config.h"
 #include "adc_driver.h"
+#include <time.h>
+#include <util/delay.h>
 
 
-uint8_t x_mid, y_mid;
-
-struct direction_joystick{
-	int direction_x;
-	int direction_y;
-};
-
-struct position_joystick_perc{
-	int position_x;
-	int position_y;
-}joystick_positions;
-
-struct position_slider_perc{
-	int position_x;
-	int position_y;
-}slider_positions;
-
-
-struct control_channels{
-	uint8_t JOYSTICK_X = 0x0;
-	uint8_t JOYSTICK_Y = 0x4;
-	uint8_t RIGHT_SLIDER = 0x2;
-	uint8_t LEFT_SLIDER = 0x6;
-}channels;
-
-enum direction_enum{RIGHT, LEFT, UP, DOWN, NEUTRAL};
-
-
-
-int joystick_position(float voltage_x, float voltage_y)
-{	
-	joystick_positions.position_y = ((voltage_y - y_mid)/y_mid)*100;
-	joystick_positions.position_x = ((voltage_x - x_mid)/x_mid)*100;
+void joystick_init(void){
 	
-	return dir;
+	// Initialize external units
+	adc_init();
+	
+	// Set PINB1, PINB2 and PINB3 as inputs
+	DDRB &= ~(1<<PINB1) & ~(1<<PINB2) & ~(1<<PINB3);
+	
+	// Calibrate joystick
+	joystick_calibration();
+
+}
+
+int joystick_button(int button){
+	switch (button){
+		// Left touch button
+		case 0: 
+			if (test_bit(PINB, PINB1)) return 1;
+				break;
+		// Right touch button
+		case 1: 
+			if (test_bit(PINB, PINB2)){
+				return 1;
+				break;
+			}
+		// Joystick button
+		case 2:
+			if (test_bit(PINB, PINB3)){
+				return 1;
+				break;
+			}
+		default:
+			break;
+	}
+	return 0;
+}
+
+joystick_position joystick_pos(void)
+{	
+	joystick_position position;
+	
+	uint8_t x,y;
+	
+	x = adc_read(0);
+	y = adc_read(1);
+	
+	//printf("(%d, %d) \n \r", x, y);
+	
+	_delay_ms(1);
+	
+	if(x > x_mid) {
+		position.position_x = 100 * (x - x_mid) / (255 - x_mid);
+		} else if (x < x_mid) {
+		position.position_x = 100 * (x - x_mid) / (x_mid - 0);
+		} else {
+		position.position_x = 0;
+	}
+	
+	//Calculate position y percentage
+	if(y > y_mid) {
+		position.position_y = 100 * (y - y_mid) / (255 - y_mid);
+		} else if (y < y_mid) {
+		position.position_y = 100 * (y - y_mid) / (y_mid - 0);
+		} else {
+		position.position_y = 0;
+	}
+	
+	
+	//position.position_x = ((x - x_mid)/(255-x_mid))*100;
+	//position.position_y = ((y - y_mid)/(255-y_mid))*100;
+	
+	//printf("%d \n \r", position.position_x);
+	
+	
+	return position;
 }
 
 
-enum joystick_direction(float voltage_x, float voltage_y){
-	int x_dir, y_dir;
+joystick_position joystick_direction(void){
 	
-	if voltage_x > x_mid{
-		x_dir = RIGHT;
-	}
+	int deadzone = 3;
 	
-	if voltage_x < x_mid{
-		x_dir = LEFT;
-	}
+	joystick_position position;
 	
-	if voltage_y > y_mid{
-		y_dir = UP;
-	}
-	if voltage_y <  y_mid{
-		y_dir = DOWN;
-	}
-	if voltage_x == x_mid && voltage_y == y_mid{
-		return NEUTRAL;
+	position = joystick_pos();
+	
+	if (position.position_x > deadzone){
+		position.dir = "RIGHT";
 	}
 	
-	direction_joystick dir = {x_dir, y_dir};
-
-	return dir;
+	if (position.position_x < -deadzone){
+		position.dir = "LEFT";
+	}
+	
+	if (position.position_y > deadzone){
+		position.dir = "UP";
+	}
+	if (position.position_y <  -deadzone){
+		position.dir = "DOWN";
+	}
+	if (abs(position.position_x) <= deadzone && abs(position.position_y) <= deadzone){
+		position.dir = "NEUTRAL";
+	}
+	
+	return position;
 	
 };
 
 void joystick_calibration(void){
-	x_mid = adc_read(channels.JOYSTICK_X);
-	y_mid = adc_read(channels.JOYSTICK_Y);
-}
-
-
-
-int joystick_slider_position(float voltage_x, float voltage_y)
-{
-	slider_positions.position_y = (voltage_x/(x_mid*2))*100;
-	slider_positions.position_x = (voltage_y/(y_mid*2))*100;
 	
-	return slider_positions;
+	uint8_t x,y;
+	
+	x = adc_read(0);
+	y = adc_read(1);
+	_delay_ms(1);
+	x_mid = x;
+	y_mid = y;
 }
+
+
+
+slider_position joystick_slider_position(void)
+{
+	slider_position position = {0,0};
+	uint8_t left, right;
+	
+	left = adc_read(3);
+	right = adc_read(2);
+	//printf("%d \n",left);
+	position.position_right = right*100/255;
+	position.position_left = left*100/255;
+		
+	return position;
+}
+

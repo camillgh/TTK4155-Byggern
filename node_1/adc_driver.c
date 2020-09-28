@@ -4,12 +4,23 @@
 #include <time.h>
 #include <util/delay.h>
 
-void adc_init(void){
+//volatile char *adc = (char *) 0x1400;
+
+
+int adc_init(void){
 	MCUCR |= (1 << SRE);
 	SFIOR |= (1 << XMM2);
 	
-	DDRE &= ~(1<<PINB0);
+	DDRE &= ~(1<<PINE0);
+	
+	//*adc = 1;
+	//*adc = 2;
+	//*adc = 3;
+	//*adc = 4;
+	
+	return 0;
 }
+
 
 
 void adc_clock_signal(void){
@@ -43,15 +54,15 @@ void adc_clock_signal(void){
 
 uint8_t adc_read(uint8_t channel){
 	volatile char *adc = (char *) 0x1400;
+	uint8_t data;
 	
+	*adc = 0b10000000 | channel;
+
+	_delay_us(350);
 	
-	*adc = channel+4;
+	data = *adc;
 	
-	_delay_ms(10);
-	
-	while((PINB & (1<< PINB0))){};
-	
-	return *adc;
+	return data;
 }
 
 //uint8_t adc_read(uint16_t adrr){

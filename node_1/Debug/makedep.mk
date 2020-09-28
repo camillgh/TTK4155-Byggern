@@ -4,7 +4,11 @@
 
 adc_driver.c
 
+joystick.c
+
 main.c
+
+oled_driver.c
 
 SRAM.c
 
