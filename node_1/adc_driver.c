@@ -56,11 +56,11 @@ uint8_t adc_read(uint8_t channel){
 	volatile char *adc = (char *) 0x1400;
 	uint8_t data;
 	
-	*adc = 0b10000000 | channel;
+	adc[0] = 0b10000000 | channel;
 
-	_delay_us(350);
+	_delay_us(100);
 	
-	data = *adc;
+	data = adc[0];
 	
 	return data;
 }

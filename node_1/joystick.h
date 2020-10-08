@@ -9,7 +9,7 @@ uint8_t x_mid, y_mid;
 typedef struct {
 	int8_t position_x;
 	int8_t position_y;
-	char *dir;
+	//enum direction_enum dir;
 	
 } joystick_position;
 
@@ -32,7 +32,7 @@ void joystick_calibration(void);
 void joystick_init(void);
 int joystick_button(int button);
 joystick_position joystick_pos(void);
-joystick_position joystick_direction(void);
+//joystick_position joystick_direction(void);
 slider_position joystick_slider_position(void);
 
 #endif

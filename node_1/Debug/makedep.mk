@@ -8,6 +8,8 @@ joystick.c
 
 main.c
 
+menu_driver.c
+
 oled_driver.c
 
 SRAM.c

@@ -7,40 +7,51 @@
 
 #include <avr/io.h>
 #include <time.h>
+#include "config.h"
 #include <util/delay.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/pgmspace.h>
 
 #include "UART_driver.h"
-#include "config.h"
 #include "SRAM.h"
 #include "adc_driver.h"
 #include "joystick.h"
 #include "oled_driver.h"
+#include "menu_driver.h"
+
 
 
 void main(void){
+
 	joystick_position j_position;
 	slider_position s_position;
-	
+	adc_init();
 	USART_init(MYUBRR);
 	adc_clock_signal();
-	//joystick_init();
+	joystick_init();
+	SRAM_init();
+
 	oled_init();
-	oled_clear();
-	oled_pos(0,0);
-	oled_write();
+	oled_reset();
+	oled_pos(0,0);	
+
+	menu_init();
+	
+
+	//update_currentmenu();
+	//SRAM_test();
 
 	while(1){
-		/* Assignment 3
+		/*Assignment 3
 		
 		int button_l = 0;
-		int button_r = 0;
+		int button_r = 0;	*/
 		int button_joy = 0;
 		
 		j_position = joystick_pos();
-		j_position = joystick_direction();
+		//printf("Position 1: %d\n\r", j_position.position_x);
+		//j_position = joystick_direction();
 		s_position = joystick_slider_position();
 		
 		// Print joystick position and direction:
@@ -48,8 +59,8 @@ void main(void){
 		
 		// Slider position
 		//printf("(Left slider: %d, Right slider: %d) \n \r", s_position.position_left, s_position.position_right);
-		
-		// Buttons
+		/*
+		//Buttons
 		if (joystick_button(0)){
 			button_l = 1;
 		}
@@ -63,23 +74,26 @@ void main(void){
 			button_r = 0;
 		}
 		if (joystick_button(2)){
-			button_joy = 1;
-		}
-		if (joystick_button(2)==0){
 			button_joy = 0;
 		}
+		if (joystick_button(2)==0){
+			button_joy = 1;
+		}
 		
-		printf("Joystick button: %d \n \r", button_joy);
+		//printf("Joystick button: %d \n \r", button_joy);
 		
 		//printf("(%d,%d)", j_position.position_x, j_position.position_y);
-		_delay_ms(1000);*/
+		_delay_ms(1);*/
 		
 		/* Assignment 4*/
-	
-		//char testern[] PROGMEM = "HEI"
-	
+			
+		show_menu();
+		navigate_menu(j_position);
+		update_currentmenu();
+		printf(current_menu.name);
 
-	}
-		
+		//_delay_ms(100);
+
 	
+	}
 }
