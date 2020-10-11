@@ -7,19 +7,19 @@
 
 #include <avr/io.h>
 #include <time.h>
-#include "config.h"
 #include <util/delay.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/pgmspace.h>
 
+#include "config.h"
 #include "UART_driver.h"
 #include "SRAM.h"
 #include "adc_driver.h"
 #include "joystick.h"
 #include "oled_driver.h"
 #include "menu_driver.h"
-
+#include "mcp2515.h"
 
 
 void main(void){
@@ -35,18 +35,24 @@ void main(void){
 	oled_init();
 	oled_reset();
 	oled_pos(0,0);	
+	
+	spi_init();
 
 	menu_init();
 	
 
 	//update_currentmenu();
 	//SRAM_test();
+	
+	spi_send(MCP_WRITE);
+	spi_send(MCP_CANCTRL);
+	spi_send(MODE_LOOPBACK);
 
 	while(1){
 		/*Assignment 3
 		
 		int button_l = 0;
-		int button_r = 0;	*/
+		int button_r = 0;	
 		int button_joy = 0;
 		
 		j_position = joystick_pos();
@@ -85,14 +91,27 @@ void main(void){
 		//printf("(%d,%d)", j_position.position_x, j_position.position_y);
 		_delay_ms(1);*/
 		
-		/* Assignment 4*/
-			
+		/* // Assignment 4 
+		
+		j_position = joystick_pos();
+		s_position = joystick_slider_position();
+
+		
 		show_menu();
 		navigate_menu(j_position);
 		update_currentmenu();
-		printf(current_menu.name);
+		printf("%s \n \r", current_menu.name);
+		
 
-		//_delay_ms(100);
+		_delay_ms(1000); */
+		
+		// Assignment 5
+		
+		char data;
+		spi_send(170);
+		data = spi_receive();
+		printf("%d \n \r", data);
+		
 
 	
 	}

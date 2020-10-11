@@ -46,11 +46,11 @@ void adc_clock_signal(void){
 	//PORTD |= (1<< PD4);
 }
 
-//void adc_write(uint8_t data, uint16_t addr)
-//{
-//	volatile char *ext_ram = (char *) 0x1400;
-//	ext_ram[addr] = data;
-//}
+void adc_write(uint8_t data, uint16_t addr)
+{
+	volatile char *ext_ram = (char *) 0x1400;
+	ext_ram[addr] = data;
+}
 
 uint8_t adc_read(uint8_t channel){
 	volatile char *adc = (char *) 0x1400;

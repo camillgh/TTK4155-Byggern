@@ -12,6 +12,8 @@ menu_driver.c
 
 oled_driver.c
 
+SPI_com_driver.c
+
 SRAM.c
 
 UART_driver.c

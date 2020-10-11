@@ -166,6 +166,9 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="mcp2515.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="menu_driver.c">
       <SubType>compile</SubType>
     </Compile>
@@ -176,6 +179,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="oled_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_com_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_com_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SRAM.c">
