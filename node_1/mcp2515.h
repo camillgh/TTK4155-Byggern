@@ -66,6 +66,7 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB1SIDH	0x71
 
 
+
 #define MCP_TX_INT		0x1C		// Enable all transmit interrupts
 #define MCP_TX01_INT	0x0C		// Enable TXB0 and TXB1 interrupts
 #define MCP_RX_INT		0x03		// Enable receive interrupts
@@ -136,9 +137,6 @@ Copyright 2003 Kimberly Otten Software Consulting
 
 
 // CNF3 Register Values
-
-#define SOF_ENABLE		0x80
-#define SOF_DISABLE		0x00
 #define WAKFIL_ENABLE	0x40
 #define WAKFIL_DISABLE	0x00
 
@@ -156,4 +154,20 @@ Copyright 2003 Kimberly Otten Software Consulting
 
 
 
+// Self defined
+#define MCP_TXB0SIDH	0x31
+#define MCP_TXB0SIDL	0x32
+#define MCP_TXB0DLC		0x35
+#define MCP_TXB0D0		0x36
+#define MCP_RXB0DLC		0x65
+#define MCP_RXB0D0		0x66
+#define MCP_RXB0SIDL	0x62
+
+#define MCP_TXB1SIDH	0x41
+#define MCP_TXB1SIDL	0x42
+#define MCP_TXB1DLC		0x45
+#define MCP_TXB1D0		0x46
+#define MCP_RXB1DLC		0x75
+#define MCP_RXB1D0		0x76
+#define MCP_RXB1SIDL	0x72
 #endif

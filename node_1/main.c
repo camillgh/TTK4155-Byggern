@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <time.h>
 #include <util/delay.h>
 #include <stdio.h>
@@ -14,43 +15,53 @@
 
 #include "config.h"
 #include "UART_driver.h"
+
 #include "SRAM.h"
 #include "adc_driver.h"
 #include "joystick.h"
 #include "oled_driver.h"
 #include "menu_driver.h"
 #include "mcp2515.h"
+#include "can.h"
+#include "mcp2515_driver.h"
 
 
 void main(void){
 
 	joystick_position j_position;
 	slider_position s_position;
+	can_message message, message2;
 	adc_init();
 	USART_init(MYUBRR);
+	
 	adc_clock_signal();
 	joystick_init();
 	SRAM_init();
+	can_init();
 
 	oled_init();
 	oled_reset();
 	oled_pos(0,0);	
+//
+	//menu_init();
 	
-	spi_init();
-
-	menu_init();
-	
-
+	message.id = 1;
+	message.length = 5;
+	message.data[0] = 'H';
+	message.data[1] = 'e';
+	message.data[2] = 'l';
+	message.data[3] = 'l';
+	message.data[4] = 'o';
 	//update_currentmenu();
 	//SRAM_test();
 	
-	spi_send(MCP_WRITE);
-	spi_send(MCP_CANCTRL);
-	spi_send(MODE_LOOPBACK);
+	//spi_send(MCP_WRITE);
+	//spi_send(MCP_CANCTRL);
+	//spi_send(MODE_LOOPBACK);
 
 	while(1){
-		/*Assignment 3
-		
+		//Assignment 3
+		/*
 		int button_l = 0;
 		int button_r = 0;	
 		int button_joy = 0;
@@ -91,8 +102,8 @@ void main(void){
 		//printf("(%d,%d)", j_position.position_x, j_position.position_y);
 		_delay_ms(1);*/
 		
-		/* // Assignment 4 
-		
+		 // Assignment 4 
+		/*
 		j_position = joystick_pos();
 		s_position = joystick_slider_position();
 
@@ -103,16 +114,29 @@ void main(void){
 		printf("%s \n \r", current_menu.name);
 		
 
-		_delay_ms(1000); */
+		_delay_ms(1000); 
+		*/
 		
-		// Assignment 5
+		// Assignment 5 
+		//printf("BEFORE SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
+		_delay_ms(100);
+		can_send(&message);
+		can_receive(&message2);
+		//printf("AFTER SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
+		//printf("AFTER SENDING RXSTAT: %x \n \r", mcp2515_read(MCP_RX_STATUS));
+		_delay_ms(100);
+		//printf("TXBControl: %x \n \ r", mcp2515_read(MCP_TXB0CTRL));
+		//printf("STAT: %d \n \r", mcp2515_read_status());
 		
-		char data;
-		spi_send(170);
-		data = spi_receive();
-		printf("%d \n \r", data);
-		
-
 	
+		//printf("DATA: %d %d %d %d %d \n \r",message2.data[0], message2.data[1], message2.data[2], message2.data[3], message2.data[4]);
+		printf("Out from SPI: %s \n\r", message2.data);
+		//can_receive();
+		
+		// Assignment 6
+		// can_init_def_tx_rx_mb(0x143555);
+		
 	}
+	
 }
+

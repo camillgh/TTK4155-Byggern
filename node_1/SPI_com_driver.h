@@ -1,3 +1,4 @@
+#include <avr/io.h>
 #ifndef SPI_COM_DRIVER_H
 #define SPI_COM_DRIVER_H
 
