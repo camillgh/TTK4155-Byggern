@@ -161,18 +161,6 @@
     <Compile Include="can.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="can_controller.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="can_controller.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="can_interrupt.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="can_interrupt.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -209,12 +197,6 @@
     <Compile Include="oled_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="printf-stdarg.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="printf-stdarg.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="SPI_com_driver.c">
       <SubType>compile</SubType>
     </Compile>
@@ -225,12 +207,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SRAM.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uart.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uart.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UART_driver.c">

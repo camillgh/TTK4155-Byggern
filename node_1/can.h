@@ -4,9 +4,9 @@
 #define CAN_H
 
 typedef struct{
-	unsigned int id;
-	uint8_t length;
-	uint8_t data[8];
+	uint16_t id;
+	char length;
+	char data[8];
 	
 } can_message;
 

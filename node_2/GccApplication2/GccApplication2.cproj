@@ -46,15 +46,15 @@
     <avrtoolinterfaceclock>7500000</avrtoolinterfaceclock>
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.40.0" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.40.0" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -159,6 +159,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="can\can_controller.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\can_controller.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\can_interrupt.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\can_interrupt.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Device_Startup\startup_sam3xa.c">
       <SubType>compile</SubType>
     </Compile>
@@ -168,9 +180,23 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="uart\printf-stdarg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uart\printf-stdarg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uart\uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="uart\uart.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Device_Startup\" />
+    <Folder Include="can" />
+    <Folder Include="uart" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Device_Startup\sam3x8e_flash.ld">
@@ -183,6 +209,12 @@
       <SubType>compile</SubType>
     </None>
     <None Include="Device_Startup\sam3xa_sram.ld">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="uart\COPYING">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="uart\COPYING.LESSER">
       <SubType>compile</SubType>
     </None>
   </ItemGroup>

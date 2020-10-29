@@ -36,23 +36,25 @@ uint8_t mcp2515_driver_init(){
 	//mcp2515_bit_modify(MCP_CANCTRL,MODE_MASK,MODE_LOOPBACK);
 	value = mcp2515_read(MCP_CANSTAT);
 	//printf("val: %x \n \r", value);
+	mcp2515_write(0x01, MCP_CNF3);
+	mcp2515_write(0xb5, MCP_CNF2);
+	mcp2515_write(0x43, MCP_CNF1);  //CAN BR NODE 2 0x290561
 	if ((value & MODE_MASK) != MODE_CONFIG){
 		printf("MCP2515 is NOT in configuration mode after reset!\n\r");
 		return 1;
 	}
 	_delay_ms(1000);
 	//printf("Canstat after reset: %d",  value);
-	mcp2515_write(MODE_LOOPBACK, MCP_CANCTRL); 
+	mcp2515_write(MODE_NORMAL, MCP_CANCTRL); 
 	//_delay_ms();  
 	value = mcp2515_read(MCP_CANSTAT);
+	printf("%d \n\r", value);
 	if ((value & MODE_MASK) != MODE_LOOPBACK){
 		printf("MCP2515 is NOT set to LOOPBACK!\n\r");
 		return 1;
 	}
 	
-	mcp2515_write(0x01, MCP_CNF3);
-	mcp2515_write(0xb5, MCP_CNF2);
-	mcp2515_write(0x43, MCP_CNF1);  //CAN BR NODE 2 0x290561
+	
 	
 	return 0;
 }

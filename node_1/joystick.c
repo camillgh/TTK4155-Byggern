@@ -71,9 +71,9 @@ joystick_position joystick_pos(void)
 	//position.position_y = (y-y_mid)*200/255;
 	
 	//printf("(%d, %d) \n \r", position.position_x, position.position_y);
-	//int8_t diff_x = x - x_mid;
+	int8_t diff_x = x - x_mid;
 	
-	/*
+	
 	if(x > x_mid) {
 		position.position_x = 100*(x-x_mid)/(0xFF - x_mid);
 	} 
@@ -84,8 +84,9 @@ joystick_position joystick_pos(void)
 		
 	if (x == x_mid) {
 		position.position_x = 0;
-	}*/
-	uint8_t y_diff = y-y_mid;
+	}
+	
+	//int8_t y_diff = y-y_mid;
 	
 	//Calculate position y percentage
 	if(y > y_mid) {
@@ -98,8 +99,6 @@ joystick_position joystick_pos(void)
 	}
 	
 	
-	//position.position_x = ((x - x_mid)/(255-x_mid))*100;
-	//position.position_y = ((y - y_mid)/(255-y_mid))*100;
 	
 	//printf("%d \n \r", position.position_x);
 
@@ -107,38 +106,34 @@ joystick_position joystick_pos(void)
 }
 
 
-/*joystick_position joystick_direction(void){
+joystick_position joystick_direction(void){
 	
 	int deadzone = 3;
 	
 	joystick_position position;
+	
 	position = joystick_pos();
 	
-	slider_position slider;
-	slider = joystick_slider_position();
-	//position.position_y = -slider.position_right;
-	
 	if (position.position_x > deadzone){
-		position.dir = RIGHT;
+		position.dir = 'R';
 	}
 	
 	if (position.position_x < -deadzone){
-		position.dir = LEFT;
+		position.dir = 'L';
 	}
 	
 	if (position.position_y > deadzone){
-		position.dir = UP;
+		position.dir = 'U';
 	}
 	if (position.position_y <  -deadzone){
-		position.dir = DOWN;
+		position.dir = 'D';
 	}
 	if (abs(position.position_x) <= deadzone && abs(position.position_y) <= deadzone){
-		position.dir = NEUTRAL;
+		position.dir = 'N';
 	}
-	printf("Dir: %d", position.position_y);
 	return position;
 	
-};*/
+};
 
 void joystick_calibration(void){
 	

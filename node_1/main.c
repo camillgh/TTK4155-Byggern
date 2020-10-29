@@ -41,17 +41,13 @@ void main(void){
 
 	oled_init();
 	oled_reset();
-	oled_pos(0,0);	
+	oled_pos(0,0);
+	
+	message.id = 0;
+	message.length = 2;	
 //
 	//menu_init();
 	
-	message.id = 1;
-	message.length = 5;
-	message.data[0] = 'H';
-	message.data[1] = 'e';
-	message.data[2] = 'l';
-	message.data[3] = 'l';
-	message.data[4] = 'o';
 	//update_currentmenu();
 	//SRAM_test();
 	
@@ -60,23 +56,24 @@ void main(void){
 	//spi_send(MODE_LOOPBACK);
 
 	while(1){
+
 		//Assignment 3
-		/*
+		
 		int button_l = 0;
 		int button_r = 0;	
 		int button_joy = 0;
 		
 		j_position = joystick_pos();
 		//printf("Position 1: %d\n\r", j_position.position_x);
-		//j_position = joystick_direction();
-		s_position = joystick_slider_position();
+		j_position = joystick_direction();
+		//s_position = joystick_slider_position();
 		
 		// Print joystick position and direction:
-		//printf("(x: %d, y: %d) %s \n \r", j_position.position_x, j_position.position_y, j_position.dir);
+		printf("(x: %d, y: %d) %c \n \r", j_position.position_x, j_position.position_y, j_position.dir);
 		
 		// Slider position
 		//printf("(Left slider: %d, Right slider: %d) \n \r", s_position.position_left, s_position.position_right);
-		/*
+		
 		//Buttons
 		if (joystick_button(0)){
 			button_l = 1;
@@ -99,8 +96,8 @@ void main(void){
 		
 		//printf("Joystick button: %d \n \r", button_joy);
 		
-		//printf("(%d,%d)", j_position.position_x, j_position.position_y);
-		_delay_ms(1);*/
+		//printf("(%d,%d)\n\r", j_position.position_x, j_position.position_y);
+		_delay_ms(100);
 		
 		 // Assignment 4 
 		/*
@@ -118,6 +115,7 @@ void main(void){
 		*/
 		
 		// Assignment 5 
+		/*
 		//printf("BEFORE SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
 		_delay_ms(100);
 		can_send(&message);
@@ -130,11 +128,18 @@ void main(void){
 		
 	
 		//printf("DATA: %d %d %d %d %d \n \r",message2.data[0], message2.data[1], message2.data[2], message2.data[3], message2.data[4]);
-		printf("Out from SPI: %s \n\r", message2.data);
-		//can_receive();
+		printf("Out from SPI: %d \n\r", message2.data[0]);
+		//can_receive(); 
+		*/
 		
 		// Assignment 6
-		// can_init_def_tx_rx_mb(0x143555);
+		
+		message.data[0] = adc_read(0);
+		message.data[1] = adc_read(1);
+		
+		
+		can_send(&message);
+		
 		
 	}
 	

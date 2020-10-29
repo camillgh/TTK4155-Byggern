@@ -6,7 +6,13 @@
  */ 
 
 #include "sam.h"
-#include "sam3x8e.h"
+#include "uart/uart.h"
+#include "uart/printf-stdarg.h"
+#include "can/can_controller.h"
+#include "can/can_interrupt.h"
+
+
+#define CAN_BR 0x00290561
 
  void led_init(void){
 	 // Activate PIO in PMC
@@ -27,9 +33,22 @@
 	 
  }
 
+CAN_MESSAGE message;
+
 int main(void)
 {
-	led_init(); 
-
-
+	
+	SystemInit();
+	configure_uart();
+	can_init(CAN_BR, 1,1);
+	//can_init_def_tx_rx_mb(CAN_BR);
+	WDT->WDT_MR = WDT_MR_WDDIS;
+	
+	while (1)
+	{
+		//can_receive(&message,0);
+		printf("data: %d\n\r", message.data);
+		//printf("sucess: %d\n\r", can_receive(&message,0));
+	}
+	
 }
