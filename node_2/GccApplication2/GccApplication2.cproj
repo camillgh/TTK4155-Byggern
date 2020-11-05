@@ -180,6 +180,12 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="pwm\pwm.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pwm\pwm.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="uart\printf-stdarg.c">
       <SubType>compile</SubType>
     </Compile>
@@ -196,6 +202,7 @@
   <ItemGroup>
     <Folder Include="Device_Startup\" />
     <Folder Include="can" />
+    <Folder Include="pwm" />
     <Folder Include="uart" />
   </ItemGroup>
   <ItemGroup>

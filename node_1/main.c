@@ -69,7 +69,7 @@ void main(void){
 		//s_position = joystick_slider_position();
 		
 		// Print joystick position and direction:
-		printf("(x: %d, y: %d) %c \n \r", j_position.position_x, j_position.position_y, j_position.dir);
+		//printf("(x: %d, y: %d) %c \n \r", j_position.position_x, j_position.position_y, j_position.dir);
 		
 		// Slider position
 		//printf("(Left slider: %d, Right slider: %d) \n \r", s_position.position_left, s_position.position_right);
@@ -134,6 +134,7 @@ void main(void){
 		
 		// Assignment 6
 		
+
 		message.data[0] = adc_read(0);
 		message.data[1] = adc_read(1);
 		
