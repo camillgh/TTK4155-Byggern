@@ -23,10 +23,13 @@ void pwm_timercounter_init(void){
 	PWM->PWM_CH_NUM[5].PWM_CMR |= (PWM_CMR_CPRE_CLKA);
 	
 	// Set period, 20 ms 
-	PWM->PWM_CH_NUM[5].PWM_CPRD = 16*1640;
+	PWM->PWM_CH_NUM[5].PWM_CPRD = 1640*16;
 	
-	// Set start duty cycle, 1.5ms
-	PWM->PWM_CH_NUM[5].PWM_CDTY = 1312;
+	// Set start duty cycle, 1.5ms (7.5% pulse width)
+
+	PWM->PWM_CH_NUM[5].PWM_CDTY = 24272; //CPRD - CPRD*7.5%
+	
+	
 	
 	// Enable channel
 	PWM->PWM_ENA |= (PWM_ENA_CHID5);
@@ -36,10 +39,10 @@ void pwm_timercounter_init(void){
 void pwm_update_dutycycle(int32_t position){
 	
 	uint32_t dutycycle = 0;
-	int32_t max_duty = 2755;
-	int32_t min_duty = 1181;
+	int32_t max_duty = 23490; //CPRD - CPRD * 2.1/20
+	int32_t min_duty = 25055; //CPRD - CPRD * 0.9/20
 	
-	int32_t diff = max_duty - min_duty;
+	int32_t diff = min_duty-max_duty;
 	
 	
 	if (position > 255) {
@@ -48,17 +51,21 @@ void pwm_update_dutycycle(int32_t position){
 	if (position < 0) {
 		position = 0;
 	}
+	//position -= 50;
 
 	
-	dutycycle = (position/255.0)*diff + min_duty;
+	dutycycle = (position/255.0)*diff + max_duty;
+	//printf("posisjon: %d\n\r", position);
 
-	if (dutycycle > max_duty){
+	if (dutycycle < max_duty){
 		dutycycle = max_duty;
 	}
 	
-	if (dutycycle < min_duty){
+	if (dutycycle > min_duty){
 		dutycycle = min_duty;
 	}
+	
+	
 	
 	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = dutycycle;
 	

@@ -44,7 +44,7 @@ void main(void){
 	oled_pos(0,0);
 	
 	message.id = 0;
-	message.length = 2;	
+	message.length = 4;	
 //
 	//menu_init();
 	
@@ -137,6 +137,8 @@ void main(void){
 
 		message.data[0] = adc_read(0);
 		message.data[1] = adc_read(1);
+		message.data[2] = adc_read(3);
+		message.data[3] = adc_read(2);
 		
 		
 		can_send(&message);

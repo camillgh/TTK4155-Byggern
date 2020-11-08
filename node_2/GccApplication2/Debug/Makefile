@@ -35,14 +35,18 @@ LINKER_SCRIPT_DEP:=
 SUBDIRS :=  \
 ../Device_Startup/ \
 ../can \
+../adc \
+../dac \
 ../pwm \
 ../uart
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../adc/adc_arduino.c \
 ../can/can_controller.c \
 ../can/can_interrupt.c \
+../dac/dac_arduino.c \
 ../Device_Startup/startup_sam3xa.c \
 ../Device_Startup/system_sam3xa.c \
 ../main.c \
@@ -58,8 +62,10 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+adc/adc_arduino.o \
 can/can_controller.o \
 can/can_interrupt.o \
+dac/dac_arduino.o \
 Device_Startup/startup_sam3xa.o \
 Device_Startup/system_sam3xa.o \
 main.o \
@@ -68,8 +74,10 @@ uart/printf-stdarg.o \
 uart/uart.o
 
 OBJS_AS_ARGS +=  \
+adc/adc_arduino.o \
 can/can_controller.o \
 can/can_interrupt.o \
+dac/dac_arduino.o \
 Device_Startup/startup_sam3xa.o \
 Device_Startup/system_sam3xa.o \
 main.o \
@@ -78,8 +86,10 @@ uart/printf-stdarg.o \
 uart/uart.o
 
 C_DEPS +=  \
+adc/adc_arduino.d \
 can/can_controller.d \
 can/can_interrupt.d \
+dac/dac_arduino.d \
 Device_Startup/startup_sam3xa.d \
 Device_Startup/system_sam3xa.d \
 main.d \
@@ -88,8 +98,10 @@ uart/printf-stdarg.d \
 uart/uart.d
 
 C_DEPS_AS_ARGS +=  \
+adc/adc_arduino.d \
 can/can_controller.d \
 can/can_interrupt.d \
+dac/dac_arduino.d \
 Device_Startup/startup_sam3xa.d \
 Device_Startup/system_sam3xa.d \
 main.d \
@@ -115,6 +127,13 @@ LINKER_SCRIPT_DEP+=  \
 
 
 # AVR32/GNU C Compiler
+adc/adc_arduino.o: ../adc/adc_arduino.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 can/can_controller.o: ../can/can_controller.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
@@ -123,6 +142,13 @@ can/can_controller.o: ../can/can_controller.c
 	
 
 can/can_interrupt.o: ../can/can_interrupt.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+dac/dac_arduino.o: ../dac/dac_arduino.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

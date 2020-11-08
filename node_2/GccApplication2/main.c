@@ -11,7 +11,7 @@
 #include "can/can_controller.h"
 #include "can/can_interrupt.h"
 #include "pwm/pwm.h"
-
+#include "adc_arduino.h"
 
 #define CAN_BR 0x00290561
 
@@ -48,17 +48,34 @@ int main(void)
 	//can_init_def_tx_rx_mb(CAN_BR);
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	pwm_timercounter_init();
+	adc_init();
+	dac_init();
 	
+	uint8_t score = 0;
+		
 	//Assignment 6
 	
-	while (1)
-	{
-		can_receive(&message,0);
-		pwm_update_dutycycle(message.data[0]);
-		//printf("sucess: %d\n\r", can_receive(&message,0));
-	}
+	uint32_t *adc_read;
+	
+	//while (1)
+	//{
+		//can_receive(&message,0);
+		//pwm_update_dutycycle(message.data[0]);
+		//printf("sucess: %d\n\r", message.data[0]);
 	
 	
+	//}
 	//Assignment 7
+	/*if (count_score()){
+		score++;
+	}
+	printf("%d \n\r", score);
+	*/
 	
+	//Assignment 8
+	while(1){
+		can_receive(&message,0);
+		dac_write(message.data[3]);
+		printf("%d\n\r", message.data[3]);	
+	}
 }

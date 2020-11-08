@@ -159,6 +159,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="adc\adc_arduino.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="adc\adc_arduino.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="can\can_controller.c">
       <SubType>compile</SubType>
     </Compile>
@@ -169,6 +175,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="can\can_interrupt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="dac\dac_arduino.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="dac\dac_arduino.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Device_Startup\startup_sam3xa.c">
@@ -202,6 +214,8 @@
   <ItemGroup>
     <Folder Include="Device_Startup\" />
     <Folder Include="can" />
+    <Folder Include="adc" />
+    <Folder Include="dac" />
     <Folder Include="pwm" />
     <Folder Include="uart" />
   </ItemGroup>
