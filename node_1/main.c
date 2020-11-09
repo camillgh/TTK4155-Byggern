@@ -39,9 +39,9 @@ void main(void){
 	SRAM_init();
 	can_init();
 
-	oled_init();
-	oled_reset();
-	oled_pos(0,0);
+	//oled_init();
+	//oled_reset();
+	//oled_pos(0,0);
 	
 	message.id = 0;
 	message.length = 4;	

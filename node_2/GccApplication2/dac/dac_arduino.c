@@ -6,24 +6,30 @@
  */ 
 
 #include "sam.h"
-
+#include "dac_arduino.h"
 
 void dac_init(){
 	
 	// Enable PMC
-	PMC->PMC_PCER1 = PMC_PCER1_PID38;
+	PMC->PMC_PCER1 |= PMC_PCER1_PID38;
 	
 	// Disable trigger, enable free running mode
-	DACC->DACC_MR = DACC_MR_TRGEN_DIS;
+	DACC->DACC_MR |= DACC_MR_TRGEN_DIS;
+	
+	DACC->DACC_MR |= DACC_MR_USER_SEL_CHANNEL1;
+	
+	DACC->DACC_MR |= DACC_MR_WORD_HALF;
 	
 	// Enable channel DAC1
-	DACC->DACC_CHER = DACC_CHER_CH1;
+	DACC->DACC_CHER |= DACC_CHER_CH1;
 	
+	PIOD->PIO_SODR |= PIO_SODR_P9;
+		
 }
 
 void dac_write(uint16_t data){
-	PIOD->PIO_SODR = PIO_SODR_P9;
-	DACC->DACC_MR |= DACC_MR_USER_SEL_CHANNEL1;
-	DACC->DACC_CDR = DACC_CDR_DATA(data);
-
+	
+	// Add data to register, scale value such that DAC1 = [0.5-2.75], AOUT = [0,5V]
+	DACC->DACC_CDR = DACC_CDR_DATA(data*16);
+	
 }

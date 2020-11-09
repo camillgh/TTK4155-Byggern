@@ -16,6 +16,10 @@ Device_Startup\system_sam3xa.c
 
 main.c
 
+motor\motor.c
+
+pid\pid.c
+
 pwm\pwm.c
 
 uart\printf-stdarg.c

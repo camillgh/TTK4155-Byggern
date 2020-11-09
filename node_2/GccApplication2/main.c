@@ -12,6 +12,7 @@
 #include "can/can_interrupt.h"
 #include "pwm/pwm.h"
 #include "adc_arduino.h"
+#include "motor/motor.h"
 
 #define CAN_BR 0x00290561
 
@@ -55,8 +56,6 @@ int main(void)
 		
 	//Assignment 6
 	
-	uint32_t *adc_read;
-	
 	//while (1)
 	//{
 		//can_receive(&message,0);
@@ -73,9 +72,11 @@ int main(void)
 	*/
 	
 	//Assignment 8
+	motor_init();
 	while(1){
 		can_receive(&message,0);
 		dac_write(message.data[3]);
 		printf("%d\n\r", message.data[3]);	
 	}
+	
 }
