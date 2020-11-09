@@ -16,6 +16,10 @@
 
 #define CAN_BR 0x00290561
 
+#define K_P 1.00
+#define K_I 0.00
+#define K_D 0.00
+
 uint32_t dutycycle;
 
  void led_init(void){
