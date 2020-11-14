@@ -30,7 +30,6 @@ void pwm_timercounter_init(void){
 	PWM->PWM_CH_NUM[5].PWM_CDTY = 24272; //CPRD - CPRD*7.5%
 	
 	
-	
 	// Enable channel
 	PWM->PWM_ENA |= (PWM_ENA_CHID5);
 

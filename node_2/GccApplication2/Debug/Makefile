@@ -38,6 +38,8 @@ SUBDIRS :=  \
 ../adc \
 ../dac \
 ../motor \
+../solenoid \
+../timer \
 ../pid \
 ../pwm \
 ../uart
@@ -55,6 +57,8 @@ C_SRCS +=  \
 ../motor/motor.c \
 ../pid/pid.c \
 ../pwm/pwm.c \
+../solenoid/solenoid.c \
+../timer/timer.c \
 ../uart/printf-stdarg.c \
 ../uart/uart.c
 
@@ -76,6 +80,8 @@ main.o \
 motor/motor.o \
 pid/pid.o \
 pwm/pwm.o \
+solenoid/solenoid.o \
+timer/timer.o \
 uart/printf-stdarg.o \
 uart/uart.o
 
@@ -90,6 +96,8 @@ main.o \
 motor/motor.o \
 pid/pid.o \
 pwm/pwm.o \
+solenoid/solenoid.o \
+timer/timer.o \
 uart/printf-stdarg.o \
 uart/uart.o
 
@@ -104,6 +112,8 @@ main.d \
 motor/motor.d \
 pid/pid.d \
 pwm/pwm.d \
+solenoid/solenoid.d \
+timer/timer.d \
 uart/printf-stdarg.d \
 uart/uart.d
 
@@ -118,6 +128,8 @@ main.d \
 motor/motor.d \
 pid/pid.d \
 pwm/pwm.d \
+solenoid/solenoid.d \
+timer/timer.d \
 uart/printf-stdarg.d \
 uart/uart.d
 
@@ -203,6 +215,20 @@ pid/pid.o: ../pid/pid.c
 	
 
 pwm/pwm.o: ../pwm/pwm.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+solenoid/solenoid.o: ../solenoid/solenoid.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+timer/timer.o: ../timer/timer.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

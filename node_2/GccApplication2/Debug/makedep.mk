@@ -22,6 +22,10 @@ pid\pid.c
 
 pwm\pwm.c
 
+solenoid\solenoid.c
+
+timer\timer.c
+
 uart\printf-stdarg.c
 
 uart\uart.c

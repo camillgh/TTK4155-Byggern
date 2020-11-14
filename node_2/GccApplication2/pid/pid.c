@@ -17,6 +17,7 @@
 
 #include "pid.h"
 #include "stdint.h"
+#include "sam.h"
 
 /*! \brief Initialization of PID controller parameters.
  *
@@ -31,7 +32,7 @@ void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_D
 {
 	// Start values for PID controller
 	pid->sumError         = 0;
-	pid->lastEncoderData = 0;
+	pid->lastProcessValue = 0;
 	// Tuning constants for PID loop
 	pid->P_Factor = p_factor;
 	pid->I_Factor = i_factor;
@@ -53,7 +54,16 @@ int16_t pid_Controller(int16_t referancePos, int16_t encoderData, struct PID_DAT
 {
 	int16_t errors, p_term, d_term;
 	int32_t i_term, ret, temp;
+	
+	encoderData = (encoderData/18000.0)*255;
 
+	if (encoderData < 0){
+		encoderData = 0;
+	}
+	else if (encoderData > 255){
+			encoderData = 255;
+	}
+	printf("%d\n\r", encoderData);
 	errors = referancePos - encoderData;
 
 	// Calculate Pterm and limit error overflow
@@ -79,9 +89,9 @@ int16_t pid_Controller(int16_t referancePos, int16_t encoderData, struct PID_DAT
 	}
 
 	// Calculate Dterm
-	//d_term = pid_st->D_Factor * (pid_st->lastEncoderData - encoderData);
+	//d_term = pid_st->D_Factor * (pid_st->lastProcessValue - encoderData);
 
-	pid_st->lastEncoderData = encoderData;
+	pid_st->lastProcessValue = encoderData;
 
 	ret = (p_term + i_term + d_term) / SCALING_FACTOR;
 	if (ret > MAX_INT) {

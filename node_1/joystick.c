@@ -30,22 +30,22 @@ int joystick_button(int button){
 				return 1;
 				break;
 			}
-		/*
+		
 		// Right touch button
 		case 1: 
 			if (test_bit(PINB, PINB2)){
 				return 1;
 				break;
 			}
-		*/
+		
 		// Joystick button
-		/*case 2:
+		case 2:
 			if (!test_bit(PINB, PINB3)){
 				return 1;
 				break;
 			}
 		default:
-			break;*/
+			break;
 	}
 	return 0;
 }

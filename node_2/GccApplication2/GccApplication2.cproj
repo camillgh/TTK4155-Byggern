@@ -210,6 +210,18 @@
     <Compile Include="pwm\pwm.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="solenoid\solenoid.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="solenoid\solenoid.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer\timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer\timer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="uart\printf-stdarg.c">
       <SubType>compile</SubType>
     </Compile>
@@ -229,6 +241,8 @@
     <Folder Include="adc" />
     <Folder Include="dac" />
     <Folder Include="motor" />
+    <Folder Include="solenoid" />
+    <Folder Include="timer" />
     <Folder Include="pid" />
     <Folder Include="pwm" />
     <Folder Include="uart" />

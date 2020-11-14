@@ -1,5 +1,5 @@
 #include "sam.h"
-#include "adc_arduino.h"
+#include "../timer/timer.h"
 
 
 void adc_init(){
@@ -35,7 +35,8 @@ uint8_t count_score(void){
 	uint16_t data;
 	data = read_adc();
 	
-	//DelayMs(1000);
+	//Delay
+	systick_delay_ms(1000);
 	
 	// When blocked IR is blocked, the value from adc is below 10000
 	if (data < 1000){
@@ -46,3 +47,4 @@ uint8_t count_score(void){
 	}
 	
 }
+

@@ -44,7 +44,7 @@ void main(void){
 	//oled_pos(0,0);
 	
 	message.id = 0;
-	message.length = 4;	
+	message.length = 5;	
 //
 	//menu_init();
 	
@@ -88,10 +88,10 @@ void main(void){
 			button_r = 0;
 		}
 		if (joystick_button(2)){
-			button_joy = 0;
+			button_joy = 1;
 		}
 		if (joystick_button(2)==0){
-			button_joy = 1;
+			button_joy = 0;
 		}
 		
 		//printf("Joystick button: %d \n \r", button_joy);
@@ -139,7 +139,7 @@ void main(void){
 		message.data[1] = adc_read(1);
 		message.data[2] = adc_read(3);
 		message.data[3] = adc_read(2);
-		
+		message.data[4] = button_joy;
 		
 		can_send(&message);
 		
