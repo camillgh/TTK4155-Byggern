@@ -95,20 +95,12 @@ uint16_t motor_read_encoder(void){
 	return encoderdata;
 }
 
-void motor_control(uint16_t encoderdata, uint8_t position_x, CAN_MESSAGE *message, pidData_t *pid){
-	// Set direction
-	if ((position_x - 176) < 0 ){
-		PIOD->PIO_CODR = PIO_PD10;
-	}
+void motor_control(uint16_t encoderdata, uint8_t position_x, CAN_MESSAGE *message){//, int32_t sumError){
 	
-	else {
-		PIOD->PIO_SODR = PIO_PD10;
-	}
 	
 	//Controller input
 	uint8_t u;
-	u = pid_Controller(position_x, encoderdata, pid);
-	//printf("%d\n\r", u);
+	u = pid_Controller(position_x, encoderdata); //, sumError);
 	
 	// Set controller input
 	dac_write(u);

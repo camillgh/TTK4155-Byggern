@@ -26,7 +26,8 @@
 
 uint32_t dutycycle;
 
-pidData_t *pid;
+
+
 uint8_t position_x;
 uint16_t encoderdata;
 
@@ -52,14 +53,7 @@ uint16_t encoderdata;
 CAN_MESSAGE message;
 
 
-struct GLOBAL_FLAGS {
-	//! True when PID control loop should run one time
-	uint8_t pidTimer : 1;
-	uint8_t dummy : 7;
-} gFlags = {0, 0};
-
 //! Parameters for regulator
-struct PID_DATA pidData;
 
 /*! \brief Sampling Time Interval
  *
@@ -70,17 +64,6 @@ struct PID_DATA pidData;
 //! \xref item todo "Todo" "Todo list"
 #define TIME_INTERVAL 157
 
-ISR(TIMER0_OVF_vect)
-{
-	static uint16_t i = 0;
-
-	if (i < TIME_INTERVAL) {
-		i++;
-	} else {
-		gFlags.pidTimer = 1;
-		i               = 0;
-	}
-}
 
 
 int main(void)
@@ -102,8 +85,8 @@ int main(void)
 
 	motor_init();
 	pid_timercounter_init();
-	pid_Init(K_P, K_I, K_D, pid);
-	pid_Reset_Integrator(pid);
+	//pid_Init(K_P, K_I, K_D);
+	//pid_Reset_Integrator(pid);
 	
 		 
 	uint8_t score = 0;
@@ -115,34 +98,23 @@ int main(void)
 		can_receive(&message,0);
 		//pwm_update_dutycycle(message.data[0]);
 		solenoid_push(message.data[4]);
-
-		//printf("sucess: %d\n\r", message.data[0]);
-		//printf("%d\n\r", message.data[4]);
-		
-		/*
-		if (gFlags.pidTimer){
-			gFlags.pidTimer = 0;
-			position_x = message.data[0];
-			encoderdata = motor_read_encoder();
-			printf("%d\n\r", encoderdata); 
-			motor_control(encoderdata, position_x, message, pid, encoderdata);
-		}
-		*/
-		//printf("%d \n\r", score);
 		
 		
 		//For every 20ms:
 		
 		if (PWM_ISR1_CHID3){
+			//RESET SUMERROR FOR HVER GANG!!!!!!!!!!!!!!!!!!!!!!!!
+			
 			//Save the received joystick output and encoder data into variables
 			position_x = message.data[0];
 			encoderdata = motor_read_encoder();
 			
 			//Set a new direction and voltage to the motor, using PID
-			motor_control(encoderdata, position_x, message, pid, encoderdata);
+			//motor_control(encoderdata, position_x, message, sumError);
 			
+			pid_Controller(position_x, encoderdata); //, sumError);
 		}
-		printf("hello");		
+		
 	
 	}
 

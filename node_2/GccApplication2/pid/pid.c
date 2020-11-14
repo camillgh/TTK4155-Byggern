@@ -28,7 +28,22 @@
  *  \param d_factor  Derivate term.
  *  \param pid  Struct with PID status.
  */
-void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_DATA *pid)
+
+//! Last process value, used to find derivative of process value.
+int16_t lastProcessValue = 0;
+//! The Proportional tuning constant, multiplied with SCALING_FACTOR
+const int16_t P_Factor = 1;
+//! The Integral tuning constant, multiplied with SCALING_FACTOR
+int16_t I_Factor = 1;
+//! The Derivative tuning constant, multiplied with SCALING_FACTOR
+int16_t D_Factor = 0;
+//! Maximum allowed error, avoid overflow
+int16_t maxError =  MAX_INT / (1 + 1);
+//! Maximum allowed sumerror, avoid overflow
+int32_t maxSumError = MAX_I_TERM / (1 + 1);
+
+/*
+void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor)
 {
 	// Start values for PID controller
 	pid->sumError         = 0;
@@ -41,6 +56,7 @@ void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_D
 	pid->maxError    = MAX_INT / (pid->P_Factor + 1);
 	pid->maxSumError = MAX_I_TERM / (pid->I_Factor + 1);
 }
+*/
 
 /*! \brief PID control algorithm.
  *
@@ -50,64 +66,85 @@ void pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor, struct PID_D
  *  \param encoderData  Measured value.
  *  \param pid_st  PID status struct.
  */
-int16_t pid_Controller(int16_t referancePos, int16_t encoderData, struct PID_DATA *pid_st)
+
+
+uint32_t sumError = 0;
+
+
+int16_t pid_Controller(int16_t referancePos, uint16_t encoderData) //, int32_t sumError)
 {
-	int16_t errors, p_term, d_term;
+	int16_t P_Factor = 1;
+	int16_t I_Factor = 1;
+
+	int16_t error, p_term, d_term;
 	int32_t i_term, ret, temp;
+		
+	//Adjust the encoderData to 
+	encoderData = (encoderData/17500.0)*255;
 	
-	encoderData = (encoderData/18000.0)*255;
+	//Out of bounds
 
 	if (encoderData < 0){
 		encoderData = 0;
 	}
 	else if (encoderData > 255){
-			encoderData = 255;
+		encoderData = 255;
 	}
-	printf("%d\n\r", encoderData);
-	errors = referancePos - encoderData;
+	//printf("EncoderData %d\n\r", encoderData);
+	//Calculate error
+	error = referancePos - encoderData;
+	printf("Errorrr %d\n\r", error);
+	printf("encoder %d\n\r", encoderData);
+	//Integral term
+	sumError = sumError + error;
+	printf("sumerror %d\n\r", sumError);
 
-	// Calculate Pterm and limit error overflow
-	if (errors > pid_st->maxError) {
-		p_term = MAX_INT;
-	} else if (errors < -pid_st->maxError) {
-		p_term = -MAX_INT;
+	if (sumError = 20000){
+		sumError = 0;
+	}
+	
+	i_term =  I_Factor*sumError;
+	
+	//Proportional term
+	p_term = P_Factor*error;
+	
+
+	ret = p_term + i_term; //+ d_term
+	
+	//printf("p_term %d\n\r", p_term);
+	
+	printf("\n\r");
+	
+	if (ret > 1300){
+		ret = 1300;
+	} else if (ret < 0){
+		ret = 0;
+	}
+	
+	
+	//Set direction
+	if (error > 0) {
+		PIOD->PIO_CODR = PIO_PD10;
+		dac_write((int16_t)ret);
 	} else {
-		p_term = pid_st->P_Factor * errors;
+		PIOD->PIO_SODR = PIO_PD10;
+		dac_write((int16_t)ret);
 	}
-
-	// Calculate Iterm and limit integral runaway
-	temp = pid_st->sumError + errors;
-	if (temp > pid_st->maxSumError) {
-		i_term           = MAX_I_TERM;
-		pid_st->sumError = pid_st->maxSumError;
-	} else if (temp < -pid_st->maxSumError) {
-		i_term           = -MAX_I_TERM;
-		pid_st->sumError = -pid_st->maxSumError;
-	} else {
-		pid_st->sumError = temp;
-		i_term           = pid_st->I_Factor * pid_st->sumError;
-	}
-
-	// Calculate Dterm
-	//d_term = pid_st->D_Factor * (pid_st->lastProcessValue - encoderData);
-
-	pid_st->lastProcessValue = encoderData;
-
-	ret = (p_term + i_term + d_term) / SCALING_FACTOR;
-	if (ret > MAX_INT) {
-		ret = MAX_INT;
-	} else if (ret < -MAX_INT) {
-		ret = -MAX_INT;
-	}
-
-	return ((int16_t)ret);
+	
+	
+	lastProcessValue = encoderData;
+	
+	
+	//return ((int16_t)ret);
 }
 
 /*! \brief Resets the integrator.
  *
  *  Calling this function will reset the integrator in the PID regulator.
  */
+/*
 void pid_Reset_Integrator(pidData_t *pid_st)
 {
-	pid_st->sumError = 0;
+	 sumError = 0;
 }
+*/
