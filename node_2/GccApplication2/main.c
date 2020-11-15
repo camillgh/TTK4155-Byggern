@@ -89,8 +89,9 @@ int main(void)
 	uint8_t score = 0;
 	uint8_t number = 0;	
 	//Assignment 6
-	
-	while (1)
+	int max_lives = 3;
+	printf("Ye haveth %d lives left in yer soul \r\n", max_lives);
+	while (max_lives)
 	{
 		can_receive(&message,0);
 		
@@ -115,12 +116,17 @@ int main(void)
 		pid2_update_controller();
 		
 		
-		/*
+		
 		
 		//Send highscore back to oled!
-		score += count_score();
-		message.data[5] = score;
-		can_send(&message, 0);*/
+		if(count_score()){
+			max_lives -= 1;
+			printf("Lives left: %d \r\n: ", max_lives);
+		}
+		if(max_lives==0){
+			printf("Game Over kek!");
+		}
+		
 	}
 
 	

@@ -19,6 +19,6 @@ void solenoid_init(){
 
 void solenoid_push(){
 	PIOC->PIO_SODR = PIO_PC18;
-	systick_delay_ms(50);
+	systick_delay_ms(300);
 	PIOC->PIO_CODR = PIO_PC18;
 }

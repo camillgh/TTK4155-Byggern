@@ -28,44 +28,76 @@
 
 void main(void){
 
-	joystick_position j_position;
-	slider_position s_position;
-	can_message message, message2;
+	can_message send_message, receive_message;
+	int button_l = 0;
+	int button_r = 0;
+	int button_joy = 0;
+	int highscore = 0;
+	
+	send_message.id = 0;
+	send_message.length = 6;
+	
 	adc_init();
 	USART_init(MYUBRR);
 	
 	adc_clock_signal();
-	joystick_init();
+	//joystick_init();
 	SRAM_init();
 	can_init();
+	joystick_init();
 
-	//oled_init();
-	//oled_reset();
-	//oled_pos(0,0);
+	oled_init();
+	oled_reset();
+	oled_pos(0,0);
 	
-	message.id = 0;
-	message.length = 5;	
-//
-	//menu_init();
+	//message.id = 0;
+	//message.length = 5;	
+
+	oled_print("Welcome to this");
+	oled_pos(1,0);
+
+	oled_print("fabulous game by");
+	oled_pos(2,0);
+
+	oled_print("group 17! :)");
+
+	_delay_ms(25000);
 	
-	//update_currentmenu();
+	menu_init();
+	update_currentmenu();
+	
 	//SRAM_test();
 	
 	//spi_send(MCP_WRITE);
 	//spi_send(MCP_CANCTRL);
 	//spi_send(MODE_LOOPBACK);
+	/*
+	while(game_started())
+		{
+			oled_reset();
+			show_menu();
+			update_currentmenu();
+			_delay_ms(100);
+		}
+		*/
+	
+	uint8_t can_flag = 0;
+	
+	oled_reset();
 
-	while(1){
-
-		//Assignment 3
+	while(1)
+		{
+		
+			
+			//Assignment 3
 		
 		int button_l = 0;
 		int button_r = 0;	
 		int button_joy = 0;
 		
-		j_position = joystick_pos();
+		//j_position = joystick_pos();
 		//printf("Position 1: %d\n\r", j_position.position_x);
-		j_position = joystick_direction();
+		//j_position = joystick_direction();
 		//s_position = joystick_slider_position();
 		
 		// Print joystick position and direction:
@@ -97,29 +129,29 @@ void main(void){
 		//printf("Joystick button: %d \n \r", button_joy);
 		
 		//printf("(%d,%d)\n\r", j_position.position_x, j_position.position_y);
-		_delay_ms(100);
+		//_delay_ms(100);
 		
 		 // Assignment 4 
-		/*
-		j_position = joystick_pos();
-		s_position = joystick_slider_position();
+		
+		//j_position = joystick_pos();
+		//s_position = joystick_slider_position();
 
 		
-		show_menu();
-		navigate_menu(j_position);
-		update_currentmenu();
-		printf("%s \n \r", current_menu.name);
+		//show_menu();
+		//navigate_menu(j_position);
+		//update_currentmenu();
+		//printf("%s \n \r", current_menu.name);
 		
 
-		_delay_ms(1000); 
-		*/
+		//_delay_ms(1000); 
+		
 		
 		// Assignment 5 
-		/*
+		
 		//printf("BEFORE SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
-		_delay_ms(100);
-		can_send(&message);
-		can_receive(&message2);
+		//_delay_ms(100);
+		//can_send(&message);
+		//can_receive(&message2);
 		//printf("AFTER SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
 		//printf("AFTER SENDING RXSTAT: %x \n \r", mcp2515_read(MCP_RX_STATUS));
 		_delay_ms(100);
@@ -128,23 +160,24 @@ void main(void){
 		
 	
 		//printf("DATA: %d %d %d %d %d \n \r",message2.data[0], message2.data[1], message2.data[2], message2.data[3], message2.data[4]);
-		printf("Out from SPI: %d \n\r", message2.data[0]);
+		//printf("Out from SPI: %d \n\r", message2.data[0]);
 		//can_receive(); 
-		*/
+		
 		
 		// Assignment 6
-		
 
-		message.data[0] = adc_read(0);
-		message.data[1] = adc_read(1);
-		message.data[2] = adc_read(3);
-		message.data[3] = adc_read(2);
-		message.data[4] = button_joy;
 		
-		can_send(&message);
+		send_message.data[0] = adc_read(0);
+		send_message.data[1] = adc_read(1);
+		send_message.data[2] = adc_read(3);
+		send_message.data[3] = adc_read(2);
+		send_message.data[4] = button_joy;
+		
+		can_send(&send_message);
+	
 		
 		
+	
 	}
 	
 }
-

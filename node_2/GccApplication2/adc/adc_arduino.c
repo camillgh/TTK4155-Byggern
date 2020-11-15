@@ -35,16 +35,15 @@ uint8_t count_score(void){
 	uint16_t data;
 	data = read_adc();
 	
-	//Delay
-	systick_delay_ms(1000);
-	
 	// When blocked IR is blocked, the value from adc is below 10000
-	if (data < 1000){
-		return 1;
+	while (data < 1000){
+		data = read_adc();
+		if (data > 1000){
+			return 1;
+			break;
+		}
 	}
-	else{
-		return 0;
-	}
+	return 0;
 	
 }
 

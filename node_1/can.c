@@ -14,23 +14,22 @@
 
 uint8_t can_flag = 0;
 
-void can_init(){	
-	
+void can_init(){
+
+	// Initialize mcp
 	mcp2515_driver_init();
+	
 	uint8_t value;
 	
-	//mcp2515_write(MCP_CANINTE, MCP_RX_INT);
-
-	//Interrupt:
 	// Disable global interrupt
-	
 	cli();
 	
-	// set pullup resistor on PINE0
+	// Set pullup resistor on PINE0
 	PORTE |= (1<<PE0);
 	
 	// Interrupt on rising edge PE0
 	EMCUCR |= (1<<ISC2);
+
 	// Enable interrupt on PE0
 	GICR |= (1<<INT2);
 	
@@ -41,6 +40,7 @@ void can_init(){
 	
 	//Enable global interrupts
 	sei();
+
 	value = mcp2515_read(MCP_CANSTAT);
 	if ((value & MODE_MASK) != MODE_LOOPBACK){
 		printf("MCP2515 is NOT set to LOOPBACK!\n\r");
@@ -51,15 +51,14 @@ void can_init(){
 	//MCUCR &= ~(1<<ISC01 | 1<< ISC00);
 	
 }
-
 void can_send(can_message *message){
 
 	if (can_transmission_completed()){
-		//printf("canstat3: %x \n \r", mcp2515_read(MCP_CANSTAT));			
+		//printf("canstat3: %x \n \r", mcp2515_read(MCP_CANSTAT));
 		// Id
 		mcp2515_write(message->id >> 3, MCP_TXB1SIDH);
 		mcp2515_write(message->id << 5, MCP_TXB1SIDL);
-		
+			
 		// Data length
 		mcp2515_write(message->length, MCP_TXB1DLC);
 		//printf("canstat4: %x \n \r", mcp2515_read(MCP_CANSTAT));
@@ -72,14 +71,12 @@ void can_send(can_message *message){
 		}
 
 	}
-	mcp2515_request_to_send(MCP_RTS_TX1);
+	mcp2515_request_to_send(MCP_RTS_TX1);			
 	//printf("canstat5: %x \n \r", mcp2515_read(MCP_CANSTAT));
 }
 
 void can_receive(can_message *message){
 	
-	//printf("CANINTF %x \n\r", mcp2515_read(MCP_CANINTF));
-	//printf("CAN flag: %d\n\r", can_flag);
 	if (can_flag){
 		printf("Eg er inni can interupt, her va da koseleg \n\r\n\r");
 		// Message id
@@ -109,9 +106,6 @@ void can_receive(can_message *message){
 		}
 		*/
 		can_flag = 0;
-		
-		
-
 	}
 	else{
 		message->id = -1;

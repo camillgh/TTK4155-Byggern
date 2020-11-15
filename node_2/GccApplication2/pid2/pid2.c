@@ -59,10 +59,8 @@ int32_t pid2_controller(int16_t measurement){
 	error = abs(error);
 	
 	p_term = kp*error;
-	printf("error: %d \r\n", error);
+	
 
-//	printf("JOYSTICK: %d \r\n\r\n", ref);
-	//printf("ENCODER: %d \r\n\r\n", measurement);
 
 	temp = (sum_error+error)/10;
 	sum_error = temp;
@@ -73,7 +71,7 @@ int32_t pid2_controller(int16_t measurement){
 	
 	//set input
 	input = (p_term+i_term+d_term)/SCALING_FACTOR;
-	printf("input: %d \r\n\r\n", input);
+
 
 	if(input > INT12_MAX){
 		input = INT12_MAX;
