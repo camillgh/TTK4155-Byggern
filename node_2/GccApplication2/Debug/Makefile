@@ -38,9 +38,9 @@ SUBDIRS :=  \
 ../adc \
 ../dac \
 ../motor \
+../pid2 \
 ../solenoid \
 ../timer \
-../pid \
 ../pwm \
 ../uart
 
@@ -55,7 +55,7 @@ C_SRCS +=  \
 ../Device_Startup/system_sam3xa.c \
 ../main.c \
 ../motor/motor.c \
-../pid/pid.c \
+../pid2/pid2.c \
 ../pwm/pwm.c \
 ../solenoid/solenoid.c \
 ../timer/timer.c \
@@ -78,7 +78,7 @@ Device_Startup/startup_sam3xa.o \
 Device_Startup/system_sam3xa.o \
 main.o \
 motor/motor.o \
-pid/pid.o \
+pid2/pid2.o \
 pwm/pwm.o \
 solenoid/solenoid.o \
 timer/timer.o \
@@ -94,7 +94,7 @@ Device_Startup/startup_sam3xa.o \
 Device_Startup/system_sam3xa.o \
 main.o \
 motor/motor.o \
-pid/pid.o \
+pid2/pid2.o \
 pwm/pwm.o \
 solenoid/solenoid.o \
 timer/timer.o \
@@ -110,7 +110,7 @@ Device_Startup/startup_sam3xa.d \
 Device_Startup/system_sam3xa.d \
 main.d \
 motor/motor.d \
-pid/pid.d \
+pid2/pid2.d \
 pwm/pwm.d \
 solenoid/solenoid.d \
 timer/timer.d \
@@ -126,7 +126,7 @@ Device_Startup/startup_sam3xa.d \
 Device_Startup/system_sam3xa.d \
 main.d \
 motor/motor.d \
-pid/pid.d \
+pid2/pid2.d \
 pwm/pwm.d \
 solenoid/solenoid.d \
 timer/timer.d \
@@ -207,7 +207,7 @@ motor/motor.o: ../motor/motor.c
 	@echo Finished building: $<
 	
 
-pid/pid.o: ../pid/pid.c
+pid2/pid2.o: ../pid2/pid2.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

@@ -81,7 +81,7 @@ main.d main.o: .././main.c \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/pio/sam3x8e.h \
  .././uart/uart.h .././uart/printf-stdarg.h .././can/can_controller.h \
  .././can/can_interrupt.h .././pwm/pwm.h .././adc_arduino.h \
- .././motor/motor.h .././pid/pid.h .././timer/timer.h \
+ .././motor/motor.h .././pid2/pid2.h .././timer/timer.h \
  .././solenoid/solenoid.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/sam.h:
@@ -258,7 +258,7 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/p
 
 .././motor/motor.h:
 
-.././pid/pid.h:
+.././pid2/pid2.h:
 
 .././timer/timer.h:
 

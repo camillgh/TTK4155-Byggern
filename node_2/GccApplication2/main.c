@@ -13,16 +13,13 @@
 #include "pwm/pwm.h"
 #include "adc_arduino.h"
 #include "motor/motor.h"
-#include "pid/pid.h"
+//#include "pid/pid.h"
+#include "pid2/pid2.h"
 #include "timer/timer.h"
 #include "solenoid/solenoid.h"
 #include "motor/motor.h"
 
 #define CAN_BR 0x00290561
-
-#define K_P 1.0
-#define K_I 1.0
-#define K_D 0.0
 
 uint32_t dutycycle;
 
@@ -80,10 +77,10 @@ int main(void)
 	adc_init();
 	dac_init();
 	solenoid_init();
-	
+	motor_init();
+	pid2_init();
 	//systick_delay_ms(1000);
 
-	motor_init();
 	pid_timercounter_init();
 	//pid_Init(K_P, K_I, K_D);
 	//pid_Reset_Integrator(pid);
@@ -96,33 +93,43 @@ int main(void)
 	while (1)
 	{
 		can_receive(&message,0);
-		//pwm_update_dutycycle(message.data[0]);
-		solenoid_push(message.data[4]);
 		
 		
-		//For every 20ms:
+		//Move the servo angle (slider)
+		pwm_update_dutycycle(message.data[3]);
 		
-		if (PWM_ISR1_CHID3){
-			//RESET SUMERROR FOR HVER GANG!!!!!!!!!!!!!!!!!!!!!!!!
-			
-			//Save the received joystick output and encoder data into variables
-			position_x = message.data[0];
-			encoderdata = motor_read_encoder();
-			
-			//Set a new direction and voltage to the motor, using PID
-			//motor_control(encoderdata, position_x, message, sumError);
-			
-			pid_Controller(position_x, encoderdata); //, sumError);
-		}
 		
-	
+		//Push the servo (joystick button)
+		//solenoid_push(message.data[4]);
+		//printf("Joystick button: %d \r\n", message.data[4]);
+		
+		
+		
+		position_x = message.data[0];
+		
+		//Move the servo position (joystick)
+		pid2_ref(position_x);
+		pid2_update_controller();
+		
+		
+		/*
+		
+		//Send highscore back to oled!
+		score += count_score();
+		message.data[5] = score;
+		can_send(&message, 0);*/
 	}
 
 	
 	//Assignment 8
 	
+	/*
+	void pid2_init(void);
+	void pid2_ref(position_x);
+	int32_t pid2_controller(encoderdata);
+	void pid2_update_controller(void);
 	//motor_init();
-	
+	*/
 	/*
 	while(1){
 		can_receive(&message,0);

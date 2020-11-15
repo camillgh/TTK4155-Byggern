@@ -198,10 +198,10 @@
     <Compile Include="motor\motor.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="pid\pid.c">
+    <Compile Include="pid2\pid2.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="pid\pid.h">
+    <Compile Include="pid2\pid2.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="pwm\pwm.c">
@@ -241,9 +241,9 @@
     <Folder Include="adc" />
     <Folder Include="dac" />
     <Folder Include="motor" />
+    <Folder Include="pid2" />
     <Folder Include="solenoid" />
     <Folder Include="timer" />
-    <Folder Include="pid" />
     <Folder Include="pwm" />
     <Folder Include="uart" />
   </ItemGroup>

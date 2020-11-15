@@ -60,10 +60,9 @@ void motor_init(){
 
 uint16_t motor_read_encoder(void){
 	
-	//Set !OE low
+/*	//Set SEL og !OE low
 	PIOD->PIO_CODR = PIO_PD0;
 	 
-	//Set SEL low
 	PIOD->PIO_CODR = PIO_PD2;
 	
 	//Delay 20us
@@ -72,7 +71,7 @@ uint16_t motor_read_encoder(void){
 	//Read MSB
 	encoderdataMSB = PIOC->PIO_PDSR;
 	
-	
+	printf("MSB %d \r\n", encoderdataMSB);
 	//Set SEL high
 	PIOD->PIO_SODR = PIO_PD2;
 
@@ -90,19 +89,37 @@ uint16_t motor_read_encoder(void){
 	encoderdata = (encoderdataMSB<<8) | encoderdataLSB;
 	
 	//Set !OE high
-	PIOD->PIO_SODR = PIO_PD0;
+	PIOD->PIO_SODR = PIO_PD0;*/
+
+
+
+	//Set SEL og !OE low
+	PIOD->PIO_CODR = PIO_CODR_P0 | PIO_CODR_P2;
+	
+	//Delay 20us
+	systick_delay_us(20);
+	
+	//Read MSB
+	encoderdataMSB = (PIOC->PIO_PDSR >> 1) & 0xFF;
+	
+	//Set SEL high
+	PIOD->PIO_SODR = PIO_SODR_P2;
+
+	//Delay 20us
+	systick_delay_us(20);
+	
+	//Read LSB
+	encoderdataLSB = (PIOC->PIO_PDSR >> 1) & 0xFF;
+	
+	//Toggle !RST
+	PIOD->PIO_CODR = PIO_CODR_P1;
+	
+	PIOD->PIO_SODR = PIO_SODR_P1;
+	
+	//Set !OE high
+	PIOD->PIO_SODR = PIO_SODR_P0;
+	
+	encoderdata = (encoderdataMSB<<8) | encoderdataLSB;
 	
 	return encoderdata;
-}
-
-void motor_control(uint16_t encoderdata, uint8_t position_x, CAN_MESSAGE *message){//, int32_t sumError){
-	
-	
-	//Controller input
-	uint8_t u;
-	u = pid_Controller(position_x, encoderdata); //, sumError);
-	
-	// Set controller input
-	dac_write(u);
-	
 }
