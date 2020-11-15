@@ -14,45 +14,63 @@
 #include <avr/pgmspace.h>
 
 #include "config.h"
-#include "UART_driver.h"
+#include "../uart_printf/UART_driver.h"
 
-#include "SRAM.h"
-#include "adc_driver.h"
-#include "joystick.h"
-#include "oled_driver.h"
-#include "menu_driver.h"
-#include "mcp2515.h"
-#include "can.h"
-#include "mcp2515_driver.h"
+#include "../test/test.h"
+#include "../sram/SRAM.h"
+#include "../adc/adc_driver.h"
+#include "../joystick/joystick.h"
+#include "../oled/oled_driver.h"
+#include "../oled/menu_driver.h"
+#include "../can/mcp2515.h"
+#include "../can/can.h"
+#include "../can/mcp2515_driver.h"
 
 
 void main(void){
+	
+	// Init: Assignent 1
+	USART_init(MYUBRR);
+	
+	// Init: Assignent 2
+	SRAM_init();
 
-	can_message send_message, receive_message;
+	// Init: Assignent 3
+	adc_init();
+	adc_clock_signal();
+	joystick_init();
+	
 	int button_l = 0;
 	int button_r = 0;
 	int button_joy = 0;
-	int highscore = 0;
 	
-	send_message.id = 0;
-	send_message.length = 6;
+	joystick_position j_position;
+	slider_position s_position;
 	
-	adc_init();
-	USART_init(MYUBRR);
-	
-	adc_clock_signal();
-	//joystick_init();
-	SRAM_init();
-	can_init();
-	joystick_init();
-
+	// Init: Assignent 4
 	oled_init();
 	oled_reset();
 	oled_pos(0,0);
 	
-	//message.id = 0;
-	//message.length = 5;	
+	menu_init();
+	update_currentmenu();
+	
+	
+	// Init: Assignent 5
+	can_init();
 
+	can_message send_message, receive_message, test_message;
+	send_message.id = 0;
+	send_message.length = 6;
+	
+	test_message.id = 0;
+	test_message.length = 1;
+	test_message.data = 1;
+	
+	// Init: Assignent 8
+	int highscore = 0;
+
+	// Start message for the game
 	oled_print("Welcome to this");
 	oled_pos(1,0);
 
@@ -61,16 +79,12 @@ void main(void){
 
 	oled_print("group 17! :)");
 
+	// After some time, the game starts
 	_delay_ms(25000);
 	
-	menu_init();
-	update_currentmenu();
 	
-	//SRAM_test();
+	// Display menu for start of the game
 	
-	//spi_send(MCP_WRITE);
-	//spi_send(MCP_CANCTRL);
-	//spi_send(MODE_LOOPBACK);
 	/*
 	while(game_started())
 		{
@@ -79,32 +93,38 @@ void main(void){
 			update_currentmenu();
 			_delay_ms(100);
 		}
-		*/
+	*/
 	
-	uint8_t can_flag = 0;
-	
+	// Reset oled display	
 	oled_reset();
 
 	while(1)
 		{
 		
-			
-			//Assignment 3
+		// Assignment 1
 		
-		int button_l = 0;
-		int button_r = 0;	
-		int button_joy = 0;
+		/*
 		
-		//j_position = joystick_pos();
-		//printf("Position 1: %d\n\r", j_position.position_x);
-		//j_position = joystick_direction();
-		//s_position = joystick_slider_position();
+		test_program();
+		printf("Hello World!");
 		
-		// Print joystick position and direction:
-		//printf("(x: %d, y: %d) %c \n \r", j_position.position_x, j_position.position_y, j_position.dir);
+		*/
 		
-		// Slider position
-		//printf("(Left slider: %d, Right slider: %d) \n \r", s_position.position_left, s_position.position_right);
+		// Assignment 2
+		
+		/*
+		
+		SRAM_test();
+		
+		*/
+		
+		// Assignment 3
+		
+		/*
+		
+		j_position = joystick_pos();
+		j_position = joystick_direction();
+		s_position = joystick_slider_position();
 		
 		//Buttons
 		if (joystick_button(0)){
@@ -126,46 +146,43 @@ void main(void){
 			button_joy = 0;
 		}
 		
-		//printf("Joystick button: %d \n \r", button_joy);
+		// Print joystick
+		printf("Joystick-x: %d, Joystick-y: %d \n\r", j_position.position_x, j_position.position_y);
 		
-		//printf("(%d,%d)\n\r", j_position.position_x, j_position.position_y);
-		//_delay_ms(100);
+		// Print direction
+		printf("Direction: %d \n\r", j_position.dir);
 		
-		 // Assignment 4 
+		// Print sliders
+		printf("Slider-left: %d, Slider-right: %d \n\r", s_position.position_left, s_position.position_right);
 		
-		//j_position = joystick_pos();
-		//s_position = joystick_slider_position();
-
+		// Print Button:
+		printf("Left button: %d, Right Button: %d, Joystick Button: %d", button_l, button_r, button_joy);
 		
-		//show_menu();
-		//navigate_menu(j_position);
-		//update_currentmenu();
-		//printf("%s \n \r", current_menu.name);
+		*/
 		
-
-		//_delay_ms(1000); 
+		// Assignment 4
 		
+		/*
 		
-		// Assignment 5 
+		// Run start game screen
+		printf("%s \n \r", current_menu.name);
 		
-		//printf("BEFORE SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
-		//_delay_ms(100);
-		//can_send(&message);
-		//can_receive(&message2);
-		//printf("AFTER SENDING Canstat: %x \n \r", mcp2515_read(MCP_CANSTAT));
-		//printf("AFTER SENDING RXSTAT: %x \n \r", mcp2515_read(MCP_RX_STATUS));
-		_delay_ms(100);
-		//printf("TXBControl: %x \n \ r", mcp2515_read(MCP_TXB0CTRL));
-		//printf("STAT: %d \n \r", mcp2515_read_status());
+		*/
 		
-	
-		//printf("DATA: %d %d %d %d %d \n \r",message2.data[0], message2.data[1], message2.data[2], message2.data[3], message2.data[4]);
-		//printf("Out from SPI: %d \n\r", message2.data[0]);
-		//can_receive(); 
+		// Assignment 5
 		
+		/*
 		
-		// Assignment 6
-
+		can_send(&test_message);
+		can_receive(&test_message);
+		
+		printf("Data: %d \n\r", test_message.data[0]);
+		
+		*/
+		
+		// Assignment 6, 8 and main game
+		
+		/*
 		
 		send_message.data[0] = adc_read(0);
 		send_message.data[1] = adc_read(1);
@@ -175,7 +192,7 @@ void main(void){
 		
 		can_send(&send_message);
 	
-		
+		*/
 		
 	
 	}

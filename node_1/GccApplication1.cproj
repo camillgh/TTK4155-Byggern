@@ -146,75 +146,87 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="adc_driver.c">
+    <Compile Include="adc\adc_driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="adc_driver.h">
+    <Compile Include="adc\adc_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="arduino_led.c">
+    <Compile Include="can\can.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="can.c">
+    <Compile Include="can\can.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="can.h">
+    <Compile Include="can\mcp2515.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\mcp2515_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\mcp2515_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\SPI_com_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="can\SPI_com_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="fonts.h">
+    <Compile Include="joystick\joystick.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="joystick.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="joystick.h">
+    <Compile Include="joystick\joystick.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mcp2515.h">
+    <Compile Include="oled\fonts.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mcp2515_driver.c">
+    <Compile Include="oled\menu_driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mcp2515_driver.h">
+    <Compile Include="oled\menu_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="menu_driver.c">
+    <Compile Include="oled\oled_driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="menu_driver.h">
+    <Compile Include="oled\oled_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="oled_driver.c">
+    <Compile Include="sram\SRAM.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="oled_driver.h">
+    <Compile Include="sram\SRAM.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI_com_driver.c">
+    <Compile Include="test\test.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI_com_driver.h">
+    <Compile Include="test\test.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SRAM.c">
+    <Compile Include="uart_printf\UART_driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SRAM.h">
+    <Compile Include="uart_printf\UART_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UART_driver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="UART_driver.h">
-      <SubType>compile</SubType>
-    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="adc" />
+    <Folder Include="can" />
+    <Folder Include="joystick" />
+    <Folder Include="test" />
+    <Folder Include="sram" />
+    <Folder Include="uart_printf" />
+    <Folder Include="oled" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

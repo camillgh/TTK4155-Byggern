@@ -189,6 +189,12 @@
     <Compile Include="Device_Startup\system_sam3xa.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="led\led.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="led\led.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -241,6 +247,7 @@
     <Folder Include="adc" />
     <Folder Include="dac" />
     <Folder Include="motor" />
+    <Folder Include="led" />
     <Folder Include="pid2" />
     <Folder Include="solenoid" />
     <Folder Include="timer" />
