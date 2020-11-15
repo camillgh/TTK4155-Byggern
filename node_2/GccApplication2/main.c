@@ -100,7 +100,10 @@ int main(void)
 		
 		
 		//Push the servo (joystick button)
-		//solenoid_push(message.data[4]);
+		if (message.data[4]){
+			solenoid_push();
+			systick_delay_ms(300);
+		}
 		//printf("Joystick button: %d \r\n", message.data[4]);
 		
 		

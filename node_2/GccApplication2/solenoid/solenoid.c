@@ -1,5 +1,6 @@
 #include "sam.h"
 #include "../timer/timer.h"
+int press;
 
 void solenoid_init(){
 	// Activate PIO in PMC
@@ -16,11 +17,8 @@ void solenoid_init(){
 	
 }
 
-void solenoid_push(int button){
-	if (button){
-		PIOC->PIO_SODR = PIO_PC18;
-		systick_delay_ms(30);
-		PIOC->PIO_CODR = PIO_PC18;
-	}
-	
+void solenoid_push(){
+	PIOC->PIO_SODR = PIO_PC18;
+	systick_delay_ms(50);
+	PIOC->PIO_CODR = PIO_PC18;
 }

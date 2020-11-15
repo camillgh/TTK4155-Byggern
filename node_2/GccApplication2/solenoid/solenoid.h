@@ -2,6 +2,6 @@
 #define SOLENOID_H
 
 void solenoid_init(void);
-void solenoid_push(int button);
+void solenoid_push();
 
 #endif
