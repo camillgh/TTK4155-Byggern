@@ -8,20 +8,57 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+/**
+ * \brief SRAM initialization
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
 void SRAM_init(void){
+	
+	// Enable external memoy
 	MCUCR |= (1 << SRE);
 	SFIOR |= (1 << XMM2);
 }
 
+/**
+ * \brief SRAM write command
+ *
+ *
+ * \param data data to be written
+ * \param addr to be written
+ * \retval void
+ */
+
 void SRAM_write(uint8_t data, uint16_t addr)
-{
+{	
+	// Pointer with start adress for sram
 	volatile char *ext_ram = (char *) 0x1800;
+	
+	// Write data to sram
 	ext_ram[addr] = data;
+	
 }
 
+/**
+ * \brief SRAM read command
+ *
+ *
+ * \param adrr adress to be read
+ * \retval ret_val read data
+ */
+
 uint8_t SRAM_read(uint16_t adrr){
+	
+	// Pointer with start adress for sram
 	volatile char *ext_ram = (char *) 0x1800;
+	
+	// Read data from sram adress
 	uint8_t ret_val = ext_ram[adrr];
+	
+	// Return data
 	return ret_val;
 }
 

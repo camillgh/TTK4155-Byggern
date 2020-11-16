@@ -8,15 +8,27 @@
 #include "../oled/fonts.h"
 #include "../oled/oled_driver.h"
 
-
+// Pointer with start adress for oled commands
 volatile char *oled_command = (char *) 0x1000;
+
+// Pointer with start adress for oled data
 volatile char *oled_data = (char *) 0x1200;
 
 const int FONTWIDTH = 8;
+
+// Global variable to keep track of which page and col we are on
 uint8_t col, page;
 
+/**
+ * \brief oled initialization
+ *
+ *
+ * \param void
+ * \retval void
+ */
 
 void oled_init(void){
+	
 	// Enable external memory
 	MCUCR |= (1 << SRE);
 	SFIOR |= (1 << XMM2);
@@ -73,8 +85,10 @@ void oled_init(void){
 	
 	//Set page start address
 	*oled_command = 0xB0;
+	
 	//Set lower column start address
 	*oled_command = 0x00;
+	
 	//Set higher column start address
 	*oled_command = 0x10;
 	
@@ -84,29 +98,55 @@ void oled_init(void){
 	// Set cursor to the start of the screen
 	oled_home();
 	
-	
-	
 }
 
-// Function to print a char
+/**
+ * \brief Prints char on oled
+ *
+ *
+ * \param c char to be printed
+ * \retval void
+ */
+
 int oled_print_char(char c){
+	
+	// Convert char
 	int print_char = c-' ';
+	
+	// Print char on oled screen
 	for (int i = 0; i < FONTWIDTH; i++){
 		*oled_data = pgm_read_byte(&font8[print_char][i]);
 	}
 	return 0;
 }
 
-// Function to print a string on oled
+/**
+ * \brief Prints string on oled
+ *
+ *
+ * \param c string to be printed
+ * \retval void
+ */
+
 void oled_print(char *c){
+	
  	int i = 0;
  	
+	// Print string on oled screen
  	while (i < strlen(c)){
  		oled_print_char(c[i]);
  		i++;
 
  	}	
 }
+
+/**
+ * \brief Return back to the start of oled screen
+ *
+ *
+ * \param void
+ * \retval void
+ */
 
 int oled_home(void) {
 
@@ -130,20 +170,38 @@ int oled_home(void) {
 	
 }
 
+/**
+ * \brief Clear oled screen
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
 // Function to reset every line
 int oled_reset(void) {
 
 	int line = 8;
 	
+	// Clear every line
 	for (uint8_t i = 0; i < line; i++) {
 		oled_clear_line(i);
 	}
 	return 0;
 }
 
+/**
+ * \brief Clear line on oled
+ *
+ *
+ * \param line line to be cleared
+ * \retval void
+ */
+
 // Function to clear a line on oled
 int oled_clear_line(uint8_t line) {
 
+	// Go to line to be cleared
 	oled_goto_line(line);
 	
 	//Clear the line
@@ -158,7 +216,13 @@ int oled_clear_line(uint8_t line) {
 
 }
 
-
+/**
+ * \brief Go to line of oled
+ *
+ *
+ * \param line line on oled screen
+ * \retval void
+ */
 
 int oled_goto_line(uint8_t line) {
 	
@@ -177,8 +241,18 @@ int oled_goto_line(uint8_t line) {
 	return 0;
 }
 
+/**
+ * \brief Go to position on oled
+ *
+ *
+ * \param line line on oled screen
+ * \param coloumn coloumn on oled screen
+ * \retval void
+ */
+
 int oled_pos(uint8_t line, uint8_t column) {
 	
+	// Go to line
 	oled_goto_line(line);
 	
 	//Set the global variable col

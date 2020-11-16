@@ -3,6 +3,7 @@
 #ifndef CAN_H
 #define CAN_H
 
+// Struct for can messages
 typedef struct{
 	uint16_t id;
 	char length;

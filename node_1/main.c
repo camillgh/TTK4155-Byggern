@@ -56,7 +56,7 @@ void main(void){
 	update_currentmenu();
 	
 	
-	// Init: Assignent 5
+	// Init: Assignment 5
 	can_init();
 
 	can_message send_message, receive_message, test_message;

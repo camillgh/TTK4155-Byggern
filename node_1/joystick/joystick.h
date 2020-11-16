@@ -1,11 +1,10 @@
 #ifndef JOYSTICK_H
 #define JOYSTICK_H
 
+// Start values for x, y direction joystick
 uint8_t x_mid, y_mid;
 
-
-//enum direction_enum{RIGHT, LEFT, UP, DOWN, NEUTRAL};
-
+// Struct for x, y position and direction for joystick
 typedef struct {
 	int8_t position_x;
 	int8_t position_y;
@@ -13,19 +12,11 @@ typedef struct {
 	
 } joystick_position;
 
+// Struct for x, y sliders
 typedef struct {
 	uint8_t position_left;
 	uint8_t position_right;
 } slider_position;
-
-
-// struct control_channels{
-// 	uint8_t JOYSTICK_X = 0x0;
-// 	uint8_t JOYSTICK_Y = 0x4;
-// 	uint8_t RIGHT_SLIDER = 0x2;
-// 	uint8_t LEFT_SLIDER = 0x6;
-// }channels;
-
 
 
 void joystick_calibration(void);

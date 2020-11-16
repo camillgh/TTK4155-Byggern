@@ -26,8 +26,6 @@ uint32_t dutycycle;
 uint8_t position_x;
 uint16_t encoderdata;
 
-#define TIME_INTERVAL 157
-
 
 
 int main(void)
@@ -125,7 +123,6 @@ int main(void)
 			solenoid_push();
 			systick_delay_ms(300);
 		}
-		//printf("Joystick button: %d \r\n", message.data[4]);
 		
 		
 		position_x = message.data[0];
@@ -137,7 +134,7 @@ int main(void)
 		
 		
 		
-		//Send highscore back to oled!
+		//Print lifes left in putty
 		if(adc_count_score()){
 			max_lives -= 1;
 			printf("Lives left: %d \r\n", max_lives);

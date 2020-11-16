@@ -1,7 +1,7 @@
 #include "sam.h"
 
 /**
- * \brief Turns on a button light on pin 42 and 43 on the Due.
+ * \brief Turns on led on pin 42 and 43 on the Due.
  *
  *
  * \param void

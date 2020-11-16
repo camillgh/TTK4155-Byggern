@@ -8,11 +8,17 @@
 #include "config.h"
 #include "../adc/adc_driver.h"
 
+/**
+ * \brief Joystick initialization
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
+
 
 void joystick_init(void){
-	
-	// Initialize external units
-	//adc_init();
 	
 	// Set PINB1, PINB2 and PINB3 as inputs
 	DDRB &= ~(1<<PINB1) & ~(1<<PINB2) & ~(1<<PINB3);
@@ -22,8 +28,19 @@ void joystick_init(void){
 
 }
 
+/**
+ * \brief Return value of selected button
+ *
+ *
+ * \param button variable to select button
+ * \retval True(1) if pushed, or False(0) if not pushed
+ */
+
+
 int joystick_button(int button){
+	
 	switch (button){
+		
 		// Left touch button
 		case 0: 
 			if (test_bit(PINB, PINB1)){
@@ -50,6 +67,14 @@ int joystick_button(int button){
 	return 0;
 }
 
+/**
+ * \brief Calculated x, y position for joystick in percentages
+ *
+ *
+ * \param void
+ * \retval position struct containing calculated joystick positions
+ */
+
 
 
 joystick_position joystick_pos(void)
@@ -57,23 +82,11 @@ joystick_position joystick_pos(void)
 	joystick_position position = {0,0};
 	uint8_t x,y;
 	
+	// Read analog value for x and y direction joystick
 	x = adc_read(0);
 	y = adc_read(1);
 	
-	//printf("(%d, %d) \n \r", x, y);
-	
-	
-	//_delay_ms(1);
-	
-	//uint8_t x_diff = x-x_mid;
-	
-	//position.position_x = (x-x_mid)*200/255;
-	//position.position_y = (y-y_mid)*200/255;
-	
-	//printf("(%d, %d) \n \r", position.position_x, position.position_y);
-	int8_t diff_x = x - x_mid;
-	
-	
+	// Calculate position x percentage
 	if(x > x_mid) {
 		position.position_x = 100*(x-x_mid)/(0xFF - x_mid);
 	} 
@@ -86,7 +99,6 @@ joystick_position joystick_pos(void)
 		position.position_x = 0;
 	}
 	
-	//int8_t y_diff = y-y_mid;
 	
 	//Calculate position y percentage
 	if(y > y_mid) {
@@ -98,22 +110,30 @@ joystick_position joystick_pos(void)
 		position.position_y = 0;
 	}
 	
-	
-	
-	//printf("%d \n \r", position.position_x);
-
 	return position;
 }
+
+/**
+ * \brief Calculates direction to joystick
+ *
+ *
+ * \param void
+ * \retval position struct containing direction of joystick
+ */
+
 
 
 joystick_position joystick_direction(void){
 	
+	// Deadzone for joystick
 	int deadzone = 3;
 	
 	joystick_position position;
 	
+	// Get x and y position for joystick
 	position = joystick_pos();
 	
+	// Calculate direction
 	if (position.position_x > deadzone){
 		position.dir = 'R';
 	}
@@ -135,17 +155,38 @@ joystick_position joystick_direction(void){
 	
 };
 
+/**
+ * \brief Joystick calibration
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
+
 void joystick_calibration(void){
 	
 	uint8_t x,y;
 	
+	// Get x, y start value for joystick
 	x = adc_read(0);
 	y = adc_read(1);
+	
 	_delay_ms(1);
+	
+	// Set start value for joystick to the global variables: x_mid, y_mid
 	x_mid = x;
 	y_mid = y;
+	
 }
 
+/**
+ * \brief Calculated left, right slider position in percentages  
+ *
+ *
+ * \param void
+ * \retval position struct containing calculated slider positions 
+ */
 
 
 slider_position joystick_slider_position(void)
@@ -153,9 +194,11 @@ slider_position joystick_slider_position(void)
 	slider_position position = {0,0};
 	uint8_t left, right;
 	
+	// Get analog value for sliders
 	left = adc_read(3);
 	right = adc_read(2);
-	//printf("%d \n",left);
+	
+	// Calculate slider position in percentage
 	position.position_right = right*100/255;
 	position.position_left = left*100/255;
 		

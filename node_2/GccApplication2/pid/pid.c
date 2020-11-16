@@ -9,7 +9,7 @@
 #include "stdint.h"
 #include "sam.h"
 
-
+// PID regulator parameters
 int16_t kp = 10;
 int16_t ki = 6;
 int16_t kd = 1;

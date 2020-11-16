@@ -13,10 +13,20 @@
 
 #include <util/delay.h>
 
-menu main, start_game, options, high_score;
+menu main, start_game;
 uint8_t cursor_page; 
 
+/**
+ * \brief oled initialization
+ *
+ *
+ * \param void
+ * \retval void
+ */
 
+
+
+// Set start display
 void menu_init(void){
 	main.name = "Main Menu";
 	main.parent = NULL;
@@ -27,70 +37,30 @@ void menu_init(void){
 	start_game.children[0] = NULL;
 	
 	current_menu = main;
-
-	game_status = 0;
 	
 	cursor_page = 2;
 };
 
 
+/**
+ * \brief Command to show current menu
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
+
+// Show current menu
 int show_menu(void){
 
 	oled_reset();
 
 	oled_home();
-	
-	/*
-	if (current_menu.name == "Main Menu"){
-		oled_pos(0,0);
-		oled_print(main.name);
-
-		oled_pos(2,0);
-		oled_print(start_game.name);
-			
-		oled_pos(3,0);
-		oled_print(options.name);
-
-		oled_pos(4,0);
-		oled_print(high_score.name);
-	}
-	
-	if (current_menu.name == "Start Game"){
-		oled_pos(0,0);
-		oled_print(start_game.name);
-
-		oled_pos(2,0);
-		oled_print("Let's go!");
-		
-	}
-	
-	if (current_menu.name == "Options"){
-		oled_pos(0,0);
-		oled_print(options.name);
-
-		oled_pos(2,0);
-		oled_print("Nothing here!");
-		}
-	
-	if (current_menu.name == "High Score"){
-		oled_pos(0,0);
-		oled_print(high_score.name);
-
-		oled_pos(2,0);
-		oled_print("The winners:");
-		
-		oled_pos(3,0);
-		oled_print("ME");
-		
-		oled_pos(4,0);
-		oled_print("MEE");
-	}
-	
-	*/
-	//oled_print(current_menu.name);
 
 	menu child;
 	
+	// Display all menus
 	int i = 0;
 	while (current_menu.children[i] != NULL){
 		
@@ -101,17 +71,27 @@ int show_menu(void){
 		i++;		
 	}
 	
+	// Arrow indicating position of cursor
 	oled_pos(cursor_page, 10);
 	oled_print(" <--");
 	
 	return 0;
 };
+
+/**
+ * \brief Command to navigate current menu
+ *
+ *
+ * \param button_l navigate down using left touch button
+ * \param button_r navigate up using right touch button
+ * \retval void
+ */
+
  
- 
+// Navigate menu using sliders
 void navigate_menu(int button_l, int button_r){
-	//Move the cursor
 	
-	int deadzone = 63;
+	//Move the cursor
 	
 	if ((button_l) && (cursor_page != 2)){
 		cursor_page--;
@@ -123,11 +103,15 @@ void navigate_menu(int button_l, int button_r){
 		_delay_ms(1000);
 	}
 
-	//current_menu = *current_menu.children[cursor_page-2]; //The two first pages are the header and a whitespace
 }
 
-//joystick_position joystick_direction(void){
-
+/**
+ * \brief command to update menu using joystick button
+ *
+ *
+ * \param void
+ * \retval void
+ */
 
 
 //Function that updates currentmenu from buttonpresses
@@ -140,32 +124,4 @@ void update_currentmenu(void){
 		printf("We are entering the submenu: %s \n\r", current_menu.name);
 	}
 	
-	if (current_menu.name == "Start Game"){
-		oled_reset();
-		oled_pos(1,0);
-		oled_print("The game has");
-		oled_pos(2,0);
-		oled_print("started!");
-		_delay_ms(25000);
-		oled_reset();
-		game_status=1;
-	}
-	
-	/*
-	// Go back from submenu
-	if (test_bit(PINB, PINB2) && current_menu.parent != NULL){
-		current_menu = *current_menu.parent;
-		cursor_page = 2;
-		printf("We are going back to: %s \n\r", current_menu.name);
-	}
-	*/
-}
-
-uint8_t game_started(void){
-	if (game_status == 1){
-		return 0;
-	}
-	else{
-		return 1;
-	}
 }

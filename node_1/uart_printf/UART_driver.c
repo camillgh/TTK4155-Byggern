@@ -9,25 +9,35 @@
 
 void USART_init(unsigned int ubrr){
 	
-	/* Set baud rate */
+	// Set baud rate 
 	UBRR0H = (unsigned char)(ubrr>>8);
 	UBRR0L = (unsigned char)ubrr;			
 	
+	// Enable RX0 and TX0
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
 	
-	/* Set frame format: 8data, 2stop bit */
+	// Set frame format: 8data, 2stop bit 
 	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
 
+	// Connect printf to putty
 	fdevopen(USART_transmit, USART_receive);
 }
 
 void USART_transmit(unsigned char data){
+	
+	// Wait for empty transmit buffer 
 	while(!(UCSR0A & (1<<UDRE0)));
+	
+	// Put data in buffer
 	UDR0 = data;
+	
 }
 
 int USART_receive(void){
+	
+	// Wait for data to be received
 	while(!(UCSR0A & (1<<RXC0)));
 
+	// Return data
 	return UDR0;
 }
