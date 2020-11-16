@@ -20,7 +20,7 @@ main.c
 
 motor\motor.c
 
-pid2\pid2.c
+pid\pid.c
 
 pwm\pwm.c
 

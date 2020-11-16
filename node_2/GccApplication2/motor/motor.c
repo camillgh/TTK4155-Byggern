@@ -8,11 +8,23 @@ uint8_t encoderdataLSB;
 uint8_t encoderdataMSB;
 uint16_t encoderdata;
 
-void motor_init(){
 
+
+/**
+ * \brief Initializes the motor
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
+void motor_init(){
+	
+	// Enables the Write Protect Mode Register
 	PMC->PMC_WPMR |= PMC_WPMR_WPEN;
 	PMC->PMC_WPMR |= PMC_WPMR_WPKEY_PASSWD;
-	
+
+	//Enable PMC on peripheral C and D	
 	PMC->PMC_PCER0 |= 1<<(ID_PIOD);
 	PMC->PMC_PCER0 |= 1<<(ID_PIOC);
 	
@@ -40,10 +52,8 @@ void motor_init(){
 	// Disable write
 	 PIOC->PIO_OWDR |= PIO_PC1 | PIO_PC2 | PIO_PC3 | PIO_PC4 | PIO_PC5 | PIO_PC6 | PIO_PC7 | PIO_PC8;
 	
-	
 	// Disable interrupts
 	PIOD->PIO_IDR |= PIO_PD0 | PIO_PD9 | PIO_PD10 | PIO_PD2 | PIO_PD1;
-
 	PIOC->PIO_IDR |= PIO_PC1 | PIO_PC2 | PIO_PC3 | PIO_PC4 | PIO_PC5 | PIO_PC6 | PIO_PC7 | PIO_PC8;
 	
 	// Output enable 
@@ -52,19 +62,24 @@ void motor_init(){
 	// Disable output
 	PIOC->PIO_ODR |= PIO_PC1 | PIO_PC2 | PIO_PC3 | PIO_PC4 | PIO_PC5 | PIO_PC6 | PIO_PC7 | PIO_PC8;
 
-
-	// Set 
+	// Set output data register PD9, or pin 30 on the Due, to be driven on the I/O line.
 	 PIOD->PIO_SODR = PIO_PD9;
 	 
 }
 
+
+/**
+ * \brief Reads from the motor encoder
+ *
+ *
+ * \param void
+ * \retval Returns the servo position from the encoder
+ */
+
 uint16_t motor_read_encoder(void){
-	
-	
 	
 	//Set SEL og !OE low
 	PIOD->PIO_CODR = PIO_PD0;
-	 
 	PIOD->PIO_CODR = PIO_PD2;
 	
 	//Delay 20us
@@ -87,42 +102,12 @@ uint16_t motor_read_encoder(void){
 	
 	PIOD->PIO_SODR = PIO_PD1;
 	
+	// Combine the high and low bytes of the encoder data to one variable
+	
 	encoderdata = (encoderdataMSB<<8) | encoderdataLSB;
 	
 	//Set !OE high
 	PIOD->PIO_SODR = PIO_PD0;
-
-	/*
-
-	//Set SEL og !OE low
-	PIOD->PIO_CODR = PIO_CODR_P0 | PIO_CODR_P2;
-	
-	//Delay 20us
-	systick_delay_us(20);
-	
-	//Read MSB
-	encoderdataMSB = (PIOC->PIO_PDSR >> 1) & 0xFF;
-	
-	//Set SEL high
-	PIOD->PIO_SODR = PIO_SODR_P2;
-
-	//Delay 20us
-	systick_delay_us(20);
-	
-	//Read LSB
-	encoderdataLSB = (PIOC->PIO_PDSR >> 1) & 0xFF;
-	
-	//Toggle !RST
-	PIOD->PIO_CODR = PIO_CODR_P1;
-	
-	PIOD->PIO_SODR = PIO_SODR_P1;
-	
-	//Set !OE high
-	PIOD->PIO_SODR = PIO_SODR_P0;
-	
-	encoderdata = (encoderdataMSB<<8) | encoderdataLSB;
-	
-	*/
 	
 	return encoderdata;
 }

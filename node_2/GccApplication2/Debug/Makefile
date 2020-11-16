@@ -39,7 +39,7 @@ SUBDIRS :=  \
 ../dac \
 ../motor \
 ../led \
-../pid2 \
+../pid \
 ../solenoid \
 ../timer \
 ../pwm \
@@ -57,7 +57,7 @@ C_SRCS +=  \
 ../led/led.c \
 ../main.c \
 ../motor/motor.c \
-../pid2/pid2.c \
+../pid/pid.c \
 ../pwm/pwm.c \
 ../solenoid/solenoid.c \
 ../timer/timer.c \
@@ -81,7 +81,7 @@ Device_Startup/system_sam3xa.o \
 led/led.o \
 main.o \
 motor/motor.o \
-pid2/pid2.o \
+pid/pid.o \
 pwm/pwm.o \
 solenoid/solenoid.o \
 timer/timer.o \
@@ -98,7 +98,7 @@ Device_Startup/system_sam3xa.o \
 led/led.o \
 main.o \
 motor/motor.o \
-pid2/pid2.o \
+pid/pid.o \
 pwm/pwm.o \
 solenoid/solenoid.o \
 timer/timer.o \
@@ -115,7 +115,7 @@ Device_Startup/system_sam3xa.d \
 led/led.d \
 main.d \
 motor/motor.d \
-pid2/pid2.d \
+pid/pid.d \
 pwm/pwm.d \
 solenoid/solenoid.d \
 timer/timer.d \
@@ -132,7 +132,7 @@ Device_Startup/system_sam3xa.d \
 led/led.d \
 main.d \
 motor/motor.d \
-pid2/pid2.d \
+pid/pid.d \
 pwm/pwm.d \
 solenoid/solenoid.d \
 timer/timer.d \
@@ -220,7 +220,7 @@ motor/motor.o: ../motor/motor.c
 	@echo Finished building: $<
 	
 
-pid2/pid2.o: ../pid2/pid2.c
+pid/pid.o: ../pid/pid.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\cmsis\5.0.1\CMSIS\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

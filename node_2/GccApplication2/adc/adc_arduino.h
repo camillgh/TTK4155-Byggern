@@ -2,7 +2,7 @@
 #define ADC_ARDUINO_H
   
 void adc_init(void);
-uint32_t read_adc(void);
-uint8_t count_score(void);
+uint32_t adc_read(void);
+uint8_t adc_count_score(void);
  
 #endif 

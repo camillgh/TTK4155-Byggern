@@ -13,8 +13,7 @@
 #include "pwm/pwm.h"
 #include "adc_arduino.h"
 #include "motor/motor.h"
-//#include "pid/pid.h"
-#include "pid2/pid2.h"
+#include "pid/pid.h"
 #include "timer/timer.h"
 #include "solenoid/solenoid.h"
 #include "motor/motor.h"
@@ -52,12 +51,14 @@ int main(void)
 	dac_init();
 	solenoid_init();
 	motor_init();
-	pid2_init();
+	pid_init();
 	pid_timercounter_init();
 		 
 	uint8_t score = 0;
 	int max_lives = 3;
 
+
+	/////   ASSIGNMENTS   /////
 	
 	//while(1){
 		
@@ -106,15 +107,15 @@ int main(void)
 	
 	
 	
-	// Main game
-	printf("Ye haveth %d lives left in yer soul \r\n", max_lives);
+	/////   MAIN GAME   /////
+
+	printf("Ye haveth %d lives left in yer soul \r\n\r\n", max_lives);
+	
 	while (max_lives)
 	{
 		can_receive(&message,0);
 		
-		
-		printf("%d \n\r", message.data[0]);
-		
+	
 		//Move the servo angle (slider)
 		pwm_update_dutycycle(message.data[3]);
 		
@@ -127,28 +128,24 @@ int main(void)
 		//printf("Joystick button: %d \r\n", message.data[4]);
 		
 		
-		
 		position_x = message.data[0];
 		
 		//Move the servo position (joystick)
-		pid2_ref(position_x);
-		pid2_update_controller();
+		pid_ref(position_x);
+		pid_update();
 		
 		
 		
 		
 		//Send highscore back to oled!
-		if(count_score()){
+		if(adc_count_score()){
 			max_lives -= 1;
-			printf("Lives left: %d \r\n: ", max_lives);
+			printf("Lives left: %d \r\n", max_lives);
 		}
 		if(max_lives==0){
-			printf("Game Over kek!");
+			printf("\r\nGame Over kek!");
 		}
 		
-		
 	}
-	
-
-	
+		
 }

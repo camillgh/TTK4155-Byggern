@@ -1,43 +1,33 @@
 /*
  * pid.h
  *
- * Created: 09.11.2020 11:13:25
- *  Author: thomhagl
+ * Created: 15.11.2020 09:52:23
+ *  Author: ivartg
  */ 
 
+#include "stdint.h"
+#include "sam.h"
 
 #ifndef PID_H_
 #define PID_H_
 
+#define DEC_INT12 4095
+#define SCALING_FACTOR 255
+
+#define JOY_MAX 255 
+#define ENC_MAX 8500
+
+static int32_t joy_ref = 0;
+static int16_t last_error;
+static int32_t sum_error;
+int32_t max_sum_error;
 
 
-#include "stdint.h"
-
-#define SCALING_FACTOR 128
-
-
-//! Summation of errors, used for integrate calculations
-
-/*! \brief PID Status
- *
- * Setpoints and data used by the PID control algorithm
- 
-
-/*
- *
- * Needed to avoid sign/overflow problems
- */
-// Maximum value of variables
-#define MAX_INT INT8_MAX
-#define MAX_LONG INT32_MAX
-#define MAX_I_TERM (MAX_LONG / 2)
-
-// Boolean values
-#define FALSE 0
-void    pid_Init(int16_t p_factor, int16_t i_factor, int16_t d_factor);
-int16_t pid_Controller(int16_t referancePos, uint16_t encoderData); //, int32_t sumError);
-//void    pid_Reset_Integrator(pidData_t *pid_st);
-
+void pid_init(void);
+void pid_ref(uint8_t joy_pos);
+int32_t pid_controller(int16_t enc_pos);
+void pid_update(void);
+void pid_timercounter_init();
 
 
 #endif /* PID_H_ */

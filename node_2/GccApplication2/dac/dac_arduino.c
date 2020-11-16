@@ -8,6 +8,14 @@
 #include "sam.h"
 #include "dac_arduino.h"
 
+/**
+ * \brief Initialize DAC
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
 void dac_init(){
 	
 	// Enable PMC
@@ -16,16 +24,28 @@ void dac_init(){
 	// Disable trigger, enable free running mode
 	DACC->DACC_MR |= DACC_MR_TRGEN_DIS;
 	
+	// Select channel 1
 	DACC->DACC_MR |= DACC_MR_USER_SEL_CHANNEL1;
 	
+	// Select half-word transfer
 	DACC->DACC_MR |= DACC_MR_WORD_HALF;
 	
 	// Enable channel DAC1
 	DACC->DACC_CHER |= DACC_CHER_CH1;
 	
+	// Set output data register PD9, or pin 30 on the Due, to be driven on the I/O line.
 	PIOD->PIO_SODR |= PIO_SODR_P9;
 		
 }
+
+
+/**
+ * \brief Converts digital servo position to analogue
+ *
+ *
+ * \param data Input calculated from PID regulator
+ * \retval void
+ */
 
 void dac_write(uint16_t data){
 	

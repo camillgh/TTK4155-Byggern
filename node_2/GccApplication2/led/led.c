@@ -1,5 +1,14 @@
 #include "sam.h"
 
+/**
+ * \brief Turns on a button light on pin 42 and 43 on the Due.
+ *
+ *
+ * \param void
+ * \retval void
+ */
+
+
 void led_init(void){
 	// Activate PIO in PMC
 	PMC->PMC_PCER0 = PMC_PCER0_PID11;
@@ -12,8 +21,7 @@ void led_init(void){
 	PIOA->PIO_OER = PIO_PA19;
 	PIOA->PIO_OER = PIO_PA20;
 	
-	//PMC_PCER0 ENABLE PERIPHERALS ON PMC! s.566
-	
+	// Set output data register PA19 and PA20, or pin 42 and 43 on the Due, to be driven on the I/O line.	
 	PIOA->PIO_SODR = PIO_PA19;
 	PIOA->PIO_SODR = PIO_PA20;
 	
