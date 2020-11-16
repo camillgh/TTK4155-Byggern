@@ -20,9 +20,10 @@ main.d main.o: .././main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
- .././config.h .././UART_driver.h .././SRAM.h .././adc_driver.h \
- .././joystick.h .././oled_driver.h .././menu_driver.h .././mcp2515.h \
- .././can.h .././mcp2515_driver.h
+ .././config.h .././uart_printf/UART_driver.h .././test/test.h \
+ .././sram/SRAM.h .././adc/adc_driver.h .././joystick/joystick.h \
+ .././oled/oled_driver.h .././oled/menu_driver.h .././can/mcp2515.h \
+ .././can/can.h .././can/mcp2515_driver.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -68,20 +69,22 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././config.h:
 
-.././UART_driver.h:
+.././uart_printf/UART_driver.h:
 
-.././SRAM.h:
+.././test/test.h:
 
-.././adc_driver.h:
+.././sram/SRAM.h:
 
-.././joystick.h:
+.././adc/adc_driver.h:
 
-.././oled_driver.h:
+.././joystick/joystick.h:
 
-.././menu_driver.h:
+.././oled/oled_driver.h:
 
-.././mcp2515.h:
+.././oled/menu_driver.h:
 
-.././can.h:
+.././can/mcp2515.h:
 
-.././mcp2515_driver.h:
+.././can/can.h:
+
+.././can/mcp2515_driver.h:

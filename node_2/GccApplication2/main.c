@@ -104,7 +104,7 @@ int main(void)
 		*/
 	//}
 	
-	/*
+	
 	
 	// Main game
 	printf("Ye haveth %d lives left in yer soul \r\n", max_lives);
@@ -112,6 +112,8 @@ int main(void)
 	{
 		can_receive(&message,0);
 		
+		
+		printf("%d \n\r", message.data[0]);
 		
 		//Move the servo angle (slider)
 		pwm_update_dutycycle(message.data[3]);
@@ -144,8 +146,9 @@ int main(void)
 			printf("Game Over kek!");
 		}
 		
+		
 	}
 	
-	*/
+
 	
 }

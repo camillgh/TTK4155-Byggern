@@ -60,7 +60,9 @@ void motor_init(){
 
 uint16_t motor_read_encoder(void){
 	
-/*	//Set SEL og !OE low
+	
+	
+	//Set SEL og !OE low
 	PIOD->PIO_CODR = PIO_PD0;
 	 
 	PIOD->PIO_CODR = PIO_PD2;
@@ -71,7 +73,6 @@ uint16_t motor_read_encoder(void){
 	//Read MSB
 	encoderdataMSB = PIOC->PIO_PDSR;
 	
-	printf("MSB %d \r\n", encoderdataMSB);
 	//Set SEL high
 	PIOD->PIO_SODR = PIO_PD2;
 
@@ -89,9 +90,9 @@ uint16_t motor_read_encoder(void){
 	encoderdata = (encoderdataMSB<<8) | encoderdataLSB;
 	
 	//Set !OE high
-	PIOD->PIO_SODR = PIO_PD0;*/
+	PIOD->PIO_SODR = PIO_PD0;
 
-
+	/*
 
 	//Set SEL og !OE low
 	PIOD->PIO_CODR = PIO_CODR_P0 | PIO_CODR_P2;
@@ -120,6 +121,8 @@ uint16_t motor_read_encoder(void){
 	PIOD->PIO_SODR = PIO_SODR_P0;
 	
 	encoderdata = (encoderdataMSB<<8) | encoderdataLSB;
+	
+	*/
 	
 	return encoderdata;
 }

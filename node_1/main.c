@@ -14,17 +14,17 @@
 #include <avr/pgmspace.h>
 
 #include "config.h"
-#include "../uart_printf/UART_driver.h"
+#include "uart_printf/UART_driver.h"
 
-#include "../test/test.h"
-#include "../sram/SRAM.h"
-#include "../adc/adc_driver.h"
-#include "../joystick/joystick.h"
-#include "../oled/oled_driver.h"
-#include "../oled/menu_driver.h"
-#include "../can/mcp2515.h"
-#include "../can/can.h"
-#include "../can/mcp2515_driver.h"
+#include "test/test.h"
+#include "sram/SRAM.h"
+#include "adc/adc_driver.h"
+#include "joystick/joystick.h"
+#include "oled/oled_driver.h"
+#include "oled/menu_driver.h"
+#include "can/mcp2515.h"
+#include "can/can.h"
+#include "can/mcp2515_driver.h"
 
 
 void main(void){
@@ -65,7 +65,7 @@ void main(void){
 	
 	test_message.id = 0;
 	test_message.length = 1;
-	test_message.data = 1;
+	test_message.data[0] = 1;
 	
 	// Init: Assignent 8
 	int highscore = 0;
@@ -182,8 +182,25 @@ void main(void){
 		
 		// Assignment 6, 8 and main game
 		
-		/*
-		
+		if (joystick_button(0)){
+			button_l = 1;
+		}
+		if (joystick_button(0)==0){
+			button_l = 0;
+		}
+		if (joystick_button(1)){
+			button_r = 1;
+		}
+		if (joystick_button(1)==0){
+			button_r = 0;
+		}
+		if (joystick_button(2)){
+			button_joy = 1;
+		}
+		if (joystick_button(2)==0){
+			button_joy = 0;
+		}
+	
 		send_message.data[0] = adc_read(0);
 		send_message.data[1] = adc_read(1);
 		send_message.data[2] = adc_read(3);
@@ -192,7 +209,7 @@ void main(void){
 		
 		can_send(&send_message);
 	
-		*/
+		
 		
 	
 	}
